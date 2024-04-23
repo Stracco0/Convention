@@ -64,7 +64,7 @@
                         $rowRisUser=$risultatoUser->fetch_assoc();
                         if ($_POST['psw_user'] == $rowRisUser["Password_user"]){
                             Database::disconnect();
-                            $time = time()+12;
+                            $time = time()+1200;
 			                $timeMemo = (string)$time;
                             setcookie("Tempo_Sessione",$timeMemo,$time); //mezz'ora di tempo
                             session_start();
