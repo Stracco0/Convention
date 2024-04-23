@@ -26,7 +26,7 @@
     </div>
     
     <div class="container signin">
-        <p>Hai già un Account? <a href="login.php">Accedi</a>.</p>
+        <p>Hai già un Account? <a href="login.php?user=''">Accedi</a>.</p>
     </div>
     <input type="hidden" name="ArrivoDa" value="Registrazione" />
     </form>

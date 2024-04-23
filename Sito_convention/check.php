@@ -27,7 +27,6 @@
                             $queryTab= "INSERT INTO User (Mail, Password_user, IDPart_fk) VALUES ('{$_POST['email']}', '{$_POST['psw']}', $idPart)";
                             if(Database::executeQuery($queryTab)){
                                 Database::disconnect();
-                                Database::disconnect();
                                 $par = 'RegisterSuccesfull';
                                 Header("Location: login.php?user=".$par);
                             }
@@ -57,24 +56,34 @@
         elseif ($_POST["ArrivoDa"]=="Login") {
             # Gestisco login
             if (Database::connect()){
-                $queryTab= "SELECT id_user,Password_user FROM User WHERE Mail = '{$_POST['email_user']}'";
+                $queryTab= "SELECT id_user,Password_user,Mail,IDPart_fk,IDRel_fk FROM User WHERE Mail = '{$_POST['email_user']}'";
                 if(Database::executeQuery($queryTab)){
                     $risultatoUser = Database::executeQuery($queryTab);
                     if (!($risultatoUser->num_rows == 0)){
                         #controllo se la password è la stessa
                         $rowRisUser=$risultatoUser->fetch_assoc();
                         if ($_POST['psw_user'] == $rowRisUser["Password_user"]){
+                            Database::disconnect();
+                            $time = time()+12;
+			                $timeMemo = (string)$time;
+                            setcookie("Tempo_Sessione",$timeMemo,$time); //mezz'ora di tempo
+                            session_start();
+                            $_SESSION["mail_user"]=$rowRisUser["Mail"];
+                            $_SESSION["idUser"]=$rowRisUser["id_user"];
                             #accesso effettuato
                             #session e cookie per salvare le credenziali per tot tempo,
                             #reindirizza verso home.php con session e cookie
-                            Database::disconnect();
-                            Header("Location: home.php");
+                            if ($rowRisUser["IDRel_fk"]!=null){
+                                $_SESSION["RelAnche"]=true;
+                            }
+                            header("Location: home.php");
                         }
                         else{
                             #password non corretta
                             Database::disconnect();
                             $par = 'PswErr';
                             Header("Location: login.php?user=".$par);
+                            exit;
                         }
                     }
                     else{

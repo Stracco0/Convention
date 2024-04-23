@@ -17,7 +17,7 @@
             location.href= 'register.php';
         };
         TooLogin=()=>{
-            location.href= 'login.php';
+            location.href= 'login.php?user=""';
         }
     </script>
 </body>
