@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS Relaziona(
 CREATE TABLE IF NOT EXISTS User(
     Id_user INT(3) NOT NULL AUTO_INCREMENT,
     Mail VARCHAR(30) NULL,
-    Password_user VARCHAR(30) NULL,
+    Password_user CHAR(64) NULL,
     IDPart_fk INT(3) NULL,
     IDRel_fk INT(3) NULL,
     FOREIGN KEY(IDRel_fk) REFERENCES Relatore(IDRel) ON DELETE CASCADE,

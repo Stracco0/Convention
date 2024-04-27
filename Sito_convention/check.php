@@ -28,7 +28,8 @@
                             $rowRis=$risultato->fetch_assoc();
                             $idPart = $rowRis["MAX(IDPart)"]; # Ottengo l'id del partecipante appena inserito per aggiungerlo come chiave esterna alla tabella user
                             $queryTab= "INSERT INTO User (Mail, Password_user, IDPart_fk) VALUES (?, ?, ?)";
-                            $parametri=["ssi",$_POST['email'],$_POST['psw'],$idPart];
+                            $password = hash("sha256", $_POST["psw"]);
+                            $parametri=["ssi",$_POST['email'],$password,$idPart];
                             if(Database::executeQuery($queryTab,$parametri,false)){
                                 Database::disconnect();
                                 $par = 'RegisterSuccesfull';
@@ -67,7 +68,8 @@
                     if (!($risultatoUser->num_rows == 0)){
                         #controllo se la password è la stessa
                         $rowRisUser=$risultatoUser->fetch_assoc();
-                        if ($_POST['psw_user'] == $rowRisUser["Password_user"]){
+                        $clientpass = hash("sha256", $_POST["psw_user"]);
+                        if ($clientpass == $rowRisUser["Password_user"]){
                             Database::disconnect();
                             $time = time()+1200;
 			                $timeMemo = (string)$time;
