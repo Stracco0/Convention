@@ -16,8 +16,9 @@
         echo (intval($_COOKIE['Tempo_Sessione']) - time())."<br>";
         if (Database::connect()){
             #Ottengo id del partecipante
-            $queryTab= "SELECT NomePart,CognomePart FROM Partecipante WHERE IDPart = '{$_SESSION['idUser']}'";
-            if($risultatoUser=Database::executeQuery($queryTab)){
+            $queryTab= "SELECT NomePart,CognomePart FROM Partecipante WHERE IDPart = ?";
+            $parametri=["i",$_SESSION['idUser']];
+            if($risultatoUser=Database::executeQuery($queryTab,$parametri,true)){
                 if (($risultatoUser->num_rows) == 1){
                     #controllo se l'id dell'utente esiste
                     $Risposta_user=$risultatoUser->fetch_assoc();
@@ -29,8 +30,9 @@
                     exit;
                 }
             }
-            $queryTab= "SELECT FasciaOraria,Titolo,Argomento,IDSpeech FROM Sceglie,Programma,Speech WHERE Sceglie.IDProgramma_fk = Programma.IDProgramma AND Speech.IDSpeech = Programma.IDSpeech_fk AND Sceglie.IDPart_fk = '{$_SESSION['idUser']}'";
-            if($risultatoSpeech=Database::executeQuery($queryTab)){
+            $queryTab= "SELECT FasciaOraria,Titolo,Argomento,IDSpeech FROM Sceglie,Programma,Speech WHERE Sceglie.IDProgramma_fk = Programma.IDProgramma AND Speech.IDSpeech = Programma.IDSpeech_fk AND Sceglie.IDPart_fk = ?";
+            $parametri=["i",$_SESSION['idUser']];
+            if($risultatoSpeech=Database::executeQuery($queryTab,$parametri,true)){
                 $htmlmio=<<<XYZ
                 <div class="row">
                     <div class="col text-end">

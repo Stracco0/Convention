@@ -7,8 +7,9 @@
     };   
     function Controllo_Utente(){
         if (Database::connect()){
-            $queryTab= "SELECT Mail FROM User WHERE id_user = '{$_SESSION['idUser']}'";
-            if($risultatoUser=Database::executeQuery($queryTab)){
+            $queryTab= "SELECT Mail FROM User WHERE id_user = ?";
+            $parametri=["i",$_SESSION['idUser']];
+            if($risultatoUser=Database::executeQuery($queryTab,$parametri,true)){
                 if (($risultatoUser->num_rows) == 1){
                     #esiste
                     return true;

@@ -18,7 +18,7 @@
                 if (Database::connect()){
                     #Ottengo lista Speech con un bottone aggiungi
                     $queryTab= "SELECT FasciaOraria,Titolo,Argomento,IDSpeech,NpostiSala,Numero FROM Sceglie,Programma,Speech,Sala,Piano WHERE Sceglie.IDProgramma_fk = Programma.IDProgramma AND Speech.IDSpeech = Programma.IDSpeech_fk AND Programma.NomeSala_fk = Sala.NomeSala AND Sala.Numero_fk = Piano.Numero";
-                    if($risultatoSpeech=Database::executeQuery($queryTab)){
+                    if($risultatoSpeech=Database::executeQueryNormal($queryTab)){
                         if (!($risultatoSpeech->num_rows) == 0){
                             #controllo la query ha prodotto dei risultati
                             $htmlmio=<<<XYZ

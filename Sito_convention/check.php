@@ -13,19 +13,23 @@
             # Gestisco registrazione
             if (Database::connect()){
                 #controllo se l'email data è già presente nel db
-                $queryTab= "SELECT Mail FROM User WHERE Mail = '{$_POST['email']}'";
-                if(Database::executeQuery($queryTab)){
-                    $risultato=Database::executeQuery($queryTab);
+                $queryTab= "SELECT Mail FROM User WHERE Mail = ?";
+                $parametri=["s",$_POST['email']];
+                if(Database::executeQuery($queryTab,$parametri,true)){
+                    $risultato=Database::executeQuery($queryTab,$parametri,true);
                     if ($risultato->num_rows == 0){
-                        $queryTab= "INSERT INTO Partecipante (NomePart, CognomePart, TipologiaPart) VALUES ('{$_POST['Nome']}','{$_POST['Cognome']}','{$_POST['Tipo']}')";
-                        if(Database::executeQuery($queryTab)){
+                        $queryTab= "INSERT INTO Partecipante (NomePart, CognomePart, TipologiaPart) VALUES (?,?,?)";
+                        $parametri=["sss",$_POST['Nome'],$_POST['Cognome'],$_POST['Tipo']];
+                        if(Database::executeQuery($queryTab,$parametri,false)){
                             # Inserimento nella tabella partecipanti effettuato correttemente
-                            $queryTab="SELECT MAX(IDPart) FROM Partecipante WHERE NomePart = '{$_POST['Nome']}' AND CognomePart = '{$_POST['Cognome']}' AND TipologiaPart = '{$_POST['Tipo']}'";
-                            $risultato=Database::executeQuery($queryTab);
+                            $queryTab="SELECT MAX(IDPart) FROM Partecipante WHERE NomePart = ? AND CognomePart = ? AND TipologiaPart = ?";
+                            $parametri=["sss",$_POST['Nome'],$_POST['Cognome'],$_POST['Tipo']];
+                            $risultato=Database::executeQuery($queryTab,$parametri,true);
                             $rowRis=$risultato->fetch_assoc();
                             $idPart = $rowRis["MAX(IDPart)"]; # Ottengo l'id del partecipante appena inserito per aggiungerlo come chiave esterna alla tabella user
-                            $queryTab= "INSERT INTO User (Mail, Password_user, IDPart_fk) VALUES ('{$_POST['email']}', '{$_POST['psw']}', $idPart)";
-                            if(Database::executeQuery($queryTab)){
+                            $queryTab= "INSERT INTO User (Mail, Password_user, IDPart_fk) VALUES (?, ?, ?)";
+                            $parametri=["ssi",$_POST['email'],$_POST['psw'],$idPart];
+                            if(Database::executeQuery($queryTab,$parametri,false)){
                                 Database::disconnect();
                                 $par = 'RegisterSuccesfull';
                                 Header("Location: login.php?user=".$par);
@@ -56,9 +60,10 @@
         elseif ($_POST["ArrivoDa"]=="Login") {
             # Gestisco login
             if (Database::connect()){
-                $queryTab= "SELECT id_user,Password_user,Mail,IDPart_fk,IDRel_fk FROM User WHERE Mail = '{$_POST['email_user']}'";
-                if(Database::executeQuery($queryTab)){
-                    $risultatoUser = Database::executeQuery($queryTab);
+                $queryTab= "SELECT id_user,Password_user FROM User WHERE Mail = ?";
+                $parametri=["s",$_POST['email_user']];
+                if(Database::executeQuery($queryTab,$parametri,true)){
+                    $risultatoUser = Database::executeQuery($queryTab,$parametri,true);
                     if (!($risultatoUser->num_rows == 0)){
                         #controllo se la password è la stessa
                         $rowRisUser=$risultatoUser->fetch_assoc();
@@ -87,21 +92,14 @@
                         }
                     }
                     else{
-                        echo "non esiste";
+                        //non esiste
                         Database::disconnect();
                         $par = 'NotFound';
                         Header("Location: login.php?user=".$par);
                     }
-                    if(Database::executeQuery($queryTab)){
-                        #Registrazione correttamente effetuata
-                        Database::disconnect();
-                    }
-                    else{
-                        echo "Login fallito 2/2";
-                    }      
                 }
                 else{
-                    echo "Login fallito 1/2";
+                    echo "Login fallito";
                 }                
             }
         }
