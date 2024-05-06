@@ -61,7 +61,7 @@
         elseif ($_POST["ArrivoDa"]=="Login") {
             # Gestisco login
             if (Database::connect()){
-                $queryTab= "SELECT id_user,Password_user FROM User WHERE Mail = ?";
+                $queryTab= "SELECT id_user,Password_user,IDRel_fk,IDPart_fk FROM User WHERE Mail = ?";
                 $parametri=["s",$_POST['email_user']];
                 if(Database::executeQuery($queryTab,$parametri,true)){
                     $risultatoUser = Database::executeQuery($queryTab,$parametri,true);
@@ -77,11 +77,13 @@
                             session_start();
                             $_SESSION["mail_user"]=$rowRisUser["Mail"];
                             $_SESSION["idUser"]=$rowRisUser["id_user"];
+                            $_SESSION["idPart"]=$rowRisUser["IDPart_fk"];
                             #accesso effettuato
                             #session e cookie per salvare le credenziali per tot tempo,
                             #reindirizza verso home.php con session e cookie
                             if ($rowRisUser["IDRel_fk"]!=null){
                                 $_SESSION["RelAnche"]=true;
+                                $_SESSION["idRel"]=$rowRisUser["IDRel_fk"];
                             }
                             header("Location: home.php");
                         }
