@@ -31,30 +31,30 @@ INSERT INTO Speech (Titolo, Argomento) VALUES
 ('Leadership e sviluppo personale', 'Abilità di leadership e crescita personale');
 
 -- Inserimento dati per la tabella Azienda
-INSERT INTO Azienda (RagioneSocialeAzienda, IndirizzoAzienda, TelefonoAzienda) VALUES
-('ABC Srl', 'Via Roma 123', '0123456789'),
-('XYZ Spa', 'Corso Italia 456', '0987654321'),
-('DEF Srl', 'Piazza Garibaldi 789', '0345678901'),
-('GHI Spa', 'Via Dante 1011', '0456789012'),
-('MNO Srl', 'Corso Vittorio Emanuele 1213', '0567890123'),
-('PQR Spa', 'Piazza Duomo 1415', '0678901234'),
-('STU Srl', 'Via Milano 1617', '0789012345'),
-('VWX Spa', 'Corso Venezia 1819', '0890123456'),
-('YZA Srl', 'Piazza San Carlo 2021', '0901234567'),
-('KLM Spa', 'Via Po 2223', '0912345678');
+INSERT INTO Azienda (RagioneSocialeAzienda, Nome, IndirizzoAzienda, TelefonoAzienda) VALUES
+('Azienda Innovativa Srl', 'Innovativa', 'Via Roma 123', '0123456789'),
+('Visione Avanzata Spa', 'Avanzata', 'Corso Italia 456', '0987654321'),
+('Eccellenza Tecnologica Srl', 'Eccellenza', 'Piazza Garibaldi 789', '0345678901'),
+('Futuro Digitale Spa', 'Futuro Digitale', 'Via Dante 1011', '0456789012'),
+('Prospettive Globali Srl', 'Prospettive Globali', 'Corso Vittorio Emanuele 1213', '0567890123'),
+('Creatività Illimitata Spa', 'Creatività Illimitata', 'Piazza Duomo 1415', '0678901234'),
+('Progresso Tecnologico Srl', 'Progresso', 'Via Milano 1617', '0789012345'),
+('Avanzamento Sostenibile Spa', 'Avanzamento Sostenibile', 'Corso Venezia 1819', '0890123456'),
+('Soluzioni Creative Srl', 'Soluzioni Creative', 'Piazza San Carlo 2021', '0901234567'),
+('Innovazione Continua Spa', 'Innovazione Continua', 'Via Po 2223', '0912345678');
 
 -- Inserimento dati per la tabella Relatore
 INSERT INTO Relatore (NomeRel, CognomeRel, RSAzienda_fk) VALUES
-('Mario', 'Rossi', 'ABC Srl'),
-('Laura', 'Bianchi', 'XYZ Spa'),
-('Giovanni', 'Verdi', 'DEF Srl'),
-('Chiara', 'Neri', 'GHI Spa'),
-('Alessandro', 'Bianco', 'MNO Srl'),
-('Francesca', 'Verde', 'PQR Spa'),
-('Luigi', 'Gialli', 'STU Srl'),
-('Martina', 'Rosa', 'VWX Spa'),
-('Simone', 'Blu', 'YZA Srl'),
-('Sara', 'Arancio', 'KLM Spa');
+('Mario', 'Rossi', 'Azienda Innovativa Srl'),
+('Laura', 'Bianchi', 'Visione Avanzata Spa'),
+('Giovanni', 'Verdi', 'Eccellenza Tecnologica Srl'),
+('Chiara', 'Neri', 'Futuro Digitale Spa'),
+('Alessandro', 'Bianco', 'Prospettive Globali Srl'),
+('Francesca', 'Verde', 'Creatività Illimitata Spa'),
+('Luigi', 'Gialli', 'Progresso Tecnologico Srl'),
+('Martina', 'Rosa', 'Avanzamento Sostenibile Spa'),
+('Simone', 'Blu', 'Soluzioni Creative Srl'),
+('Sara', 'Arancio', 'Innovazione Continua Spa');
 
 -- Inserimento dati per la tabella Programma
 INSERT INTO Programma (FasciaOraria, IDSpeech_fk, NomeSala_fk) VALUES
@@ -94,13 +94,23 @@ INSERT INTO Relaziona (IDProgramma_fk, IDRel_fk) VALUES
 
 -- Inserimento dati per la tabella User
 INSERT INTO User (Mail, Password_user, IDPart_fk, IDRel_fk) VALUES
-('utente1@example.com', 'password1', 1, NULL),
-('utente2@example.com', 'password2', 2, NULL),
-('utente3@example.com', 'password3', 3, NULL),
-('utente4@example.com', 'password4', 4, NULL),
-('relatore1@example.com', 'password5', NULL, 1),
-('relatore2@example.com', 'password6', NULL, 2),
-('relatore3@example.com', 'password7', NULL, 3),
-('relatore4@example.com', 'password8', NULL, 4),
-('relatore5@example.com', 'password9', NULL, 5),
-('relatore6@example.com', 'password10', NULL, 6);
+('utente1@example.com', SHA2('password1', 256), 1, NULL),
+('utente2@example.com', SHA2('password2', 256), 2, NULL),
+('utente3@example.com', SHA2('password3', 256), 3, NULL),
+('utente4@example.com', SHA2('password4', 256), 4, NULL),
+('relatore1@example.com', SHA2('password5', 256), NULL, 1),
+('relatore2@example.com', SHA2('password6', 256), NULL, 2),
+('relatore3@example.com', SHA2('password7', 256), NULL, 3),
+('relatore4@example.com', SHA2('password8', 256), NULL, 4),
+('relatore5@example.com', SHA2('password9', 256), NULL, 5),
+('relatore6@example.com', SHA2('password10', 256), NULL, 6);
+
+-- Jolly
+INSERT INTO Relatore (NomeRel, CognomeRel, RSAzienda_fk) VALUES
+('Simone', 'Verdi', 'Azienda Innovativa Srl');
+
+INSERT INTO Partecipante (NomePart, CognomePart, TipologiaPart) VALUES
+('Simone', 'Verdi', 'Delegato');
+
+INSERT INTO User (Mail, Password_user, IDPart_fk, IDRel_fk) VALUES
+('simone.verdi@example.com', SHA2('password_simone', 256), 11, 11);

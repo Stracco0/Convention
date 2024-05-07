@@ -1,8 +1,13 @@
 <?php
-    function Controllo_Cookie() {
-        if(!isset($_COOKIE["Tempo_Sessione"])){
+    function Controllo_Cookie($wait) {
+        if(!isset($_COOKIE["Tempo_Sessione"]) && ($wait==false)){
             header("Location: ./destroyer_session.php");
             exit;
+        }
+        elseif(!isset($_COOKIE["Tempo_Sessione"]) && ($wait==true)){
+            return true;
+        }else{
+            return false;
         }
     };   
     function Controllo_Utente(){
@@ -22,6 +27,20 @@
                 header("Location: ./destroyer_session.php");
                 exit;
             }
+        }
+    }
+    function isArel(){
+        if(isset($_SESSION["RelAnche"])){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    function isPart(){
+        if(isset($_SESSION["idPart"])){
+            return true;
+        }else{
+            return false;
         }
     }
     function RefreshTempo(){

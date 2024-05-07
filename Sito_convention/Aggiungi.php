@@ -1,9 +1,9 @@
 <?php
     include "Database.php";
     include "utilitis.php";
-    Controllo_Cookie();
+    Controllo_Cookie(false);
     session_start();
-    if((Controllo_Utente()) || !(isset($_POST['IdPart']))){
+    if(Controllo_Utente() && isset($_POST['IdPart'])){
         #l'utente ha cliccato ed è autenticato quindi aggiorno tempo sessione
         RefreshTempo();
         if (Database::connect()){

@@ -7,12 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-    <a href="home.php"><button class='btn btn-primary'>Indietro</button></a>
+    <a href="index.php"><button class='btn btn-primary'>Indietro</button></a>
     
     <?php
             include "Database.php";
             include "utilitis.php";
-            Controllo_Cookie();
+            Controllo_Cookie(false);
             session_start();
             if(Controllo_Utente()){
                 #l'utente ha cliccato ed è autenticato quindi aggiorno tempo sessione

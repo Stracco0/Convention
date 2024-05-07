@@ -1,0 +1,14 @@
+body {
+    background-color: #f8f9fa;
+}
+.card {
+    margin-top: 150px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.card-header {
+    background: linear-gradient(to right, #007bff, #06b6ff);
+    color: #fff;
+    border-radius: 15px 15px 0 0;
+}

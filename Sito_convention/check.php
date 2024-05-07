@@ -85,7 +85,7 @@
                                 $_SESSION["RelAnche"]=true;
                                 $_SESSION["idRel"]=$rowRisUser["IDRel_fk"];
                             }
-                            header("Location: home.php");
+                            header("Location: index.php");
                         }
                         else{
                             #password non corretta

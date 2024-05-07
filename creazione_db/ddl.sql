@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS Speech(
 );
 CREATE TABLE IF NOT EXISTS Azienda(
     RagioneSocialeAzienda VARCHAR(30) NOT NULL,
+    Nome VARCHAR(30) NULL,
     IndirizzoAzienda VARCHAR(60) NULL,
     TelefonoAzienda CHAR(10) NULL,
     PRIMARY KEY(RagioneSocialeAzienda)
