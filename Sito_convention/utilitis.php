@@ -1,7 +1,7 @@
 <?php
     function Controllo_Cookie($wait) {
         if(!(isset($_COOKIE["Tempo_Sessione"])) && ($wait==false)){
-            header("Location: ./destroyer_session.php");
+            header("Location: ./destroyer_session.php?call=timeout");
             exit;
         }
         elseif(!isset($_COOKIE["Tempo_Sessione"]) && ($wait==true)){
@@ -20,11 +20,11 @@
                     return true;
                 }
                 else{
-                    header("Location: ./destroyer_session.php?call=controllo utente ciao");
+                    header("Location: ./destroyer_session.php?call=noexistsnomore");
                     exit;
                 }
             }else{
-                header("Location: ./destroyer_session.php?call=controllo utente miao");
+                header("Location: ./destroyer_session.php?call=error internal");
                 exit;
             }
         }
@@ -43,7 +43,7 @@
             return false;
         }
     }
-    function is_Anonymus() {
+    function is_NOTAnonymus() {
         if(isArel() || isPart()){
             return true;
         }

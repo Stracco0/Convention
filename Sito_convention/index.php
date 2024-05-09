@@ -29,8 +29,9 @@
             </ul>
             <?php
                 session_start();
-                if(is_Anonymus()){
+                if(is_NOTAnonymus()){
                     Controllo_Utente();
+                    Controllo_Cookie(false);
                     if (Database::connect()){
                         $queryTab= "SELECT NomePart,CognomePart FROM Partecipante WHERE IDPart = ?";
                         $parametri=["i",$_SESSION['idPart']];
@@ -79,7 +80,7 @@
     <div class="container-fluid p-3">
         <?php
             //fare in modo di creare versione incognita con tutti gli speech
-            if(is_Anonymus()){
+            if(is_NOTAnonymus()){
                 session_start();
                 Controllo_Utente();
                 echo (intval($_COOKIE['Tempo_Sessione']) - time())."<br>";
