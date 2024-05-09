@@ -24,34 +24,50 @@
         <div id="navb" class="navbar-collapse collapse hide">
             <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Page 1</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Page 2</a>
+                <a class="nav-link" href="index.php">Home</a>
             </li>
             </ul>
             <?php
-                if(!Controllo_Cookie(true)){
-                    $htmlmio = <<<XYZ
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="fas fa-user">mirko</span></a>
-                        </li>
-                    </ul>
-                    XYZ;
-                    echo $htmlmio;
+                session_start();
+                if(is_Anonymus()){
+                    Controllo_Utente();
+                    if (Database::connect()){
+                        $queryTab= "SELECT NomePart,CognomePart FROM Partecipante WHERE IDPart = ?";
+                        $parametri=["i",$_SESSION['idPart']];
+                        if($risultatoUser=Database::executeQuery($queryTab,$parametri,true)){
+                            if (($risultatoUser->num_rows) == 1){
+                                #controllo se l'id dell'utente esiste
+                                $Risposta_user=$risultatoUser->fetch_assoc();
+                                $htmlmio = <<<XYZ
+                                <ul class="nav navbar-nav ml-auto dropleft">
+                                    <div class="dropdown">
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Info Account</a>
+                                    <a class="dropdown-item" href="destroyer_session.php"><span class="fas fa-sign-in-alt"></span> Logout</a>
+                                    </div>
+                                </div>
+                                    <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link" href="#"><span class="fas fa-user"> {$Risposta_user['CognomePart']} </span></a>
+                                    </div>
+                                </li>
+                                </ul>
+                                XYZ;
+                                echo $htmlmio;
+                            }
+                            else{
+                                    header("Location: ./destroyer_session.php?call=controllo utente 2 header");
+                                    exit;
+                            }
+                        }
+                    }
                 }
                 else{
                     $htmlmio = <<<XYZ
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="register.php"><span class="fas fa-user"></span>Registrati</a>
+                            <a class="nav-link" href="register.php"><span class="fas fa-user"></span> Registrati</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php"><span class="fas fa-sign-in-alt"></span>Accedi</a>
+                            <a class="nav-link" href="login.php"><span class="fas fa-sign-in-alt"></span> Accedi</a>
                         </li>
                     </ul>
                     XYZ;
@@ -63,28 +79,12 @@
     <div class="container-fluid p-3">
         <?php
             //fare in modo di creare versione incognita con tutti gli speech
-            if(!Controllo_Cookie(true)){
-                echo "<a href='destroyer_session.php'><button class='btn btn-primary'>Logout</button></a>";
+            if(is_Anonymus()){
                 session_start();
                 Controllo_Utente();
                 echo (intval($_COOKIE['Tempo_Sessione']) - time())."<br>";
                 if (Database::connect()){
                     if(isPart()){
-                        #Ottengo id del partecipante
-                        $queryTab= "SELECT NomePart,CognomePart FROM Partecipante WHERE IDPart = ?";
-                        $parametri=["i",$_SESSION['idPart']];
-                        if($risultatoUser=Database::executeQuery($queryTab,$parametri,true)){
-                            if (($risultatoUser->num_rows) == 1){
-                                #controllo se l'id dell'utente esiste
-                                $Risposta_user=$risultatoUser->fetch_assoc();
-                                echo "Benvenuto/a".$Risposta_user["NomePart"]." ".$Risposta_user["CognomePart"]."<br>";
-                            }
-                            else{
-                                echo "Utente non esistente";
-                                header("Location: ./destroyer_session.php");
-                                exit;
-                            }
-                        }
                         $queryTab= "SELECT FasciaOraria,Titolo,Argomento,IDSpeech FROM Sceglie,Programma,Speech WHERE Sceglie.IDProgramma_fk = Programma.IDProgramma AND Speech.IDSpeech = Programma.IDSpeech_fk AND Sceglie.IDPart_fk = ?";
                         $parametri=["i",$_SESSION['idPart']];
                         if($risultatoSpeech=Database::executeQuery($queryTab,$parametri,true)){

@@ -72,3 +72,5 @@ CREATE TABLE IF NOT EXISTS User(
     FOREIGN KEY(IDPart_fk) REFERENCES Partecipante(IDPart) ON DELETE CASCADE,
     PRIMARY KEY(Id_user)
 );
+CREATE VIEW IF NOT EXISTS (Id_salav,NpostiDisponibili,id_programma)
+AS SELECT NomeSala,NpostiSala
