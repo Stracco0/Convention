@@ -4,79 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
     <?php
         include "Database.php";
         include "utilitis.php";
+        $where="Home";
+        include_once("navbar.php");
     ?>
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
-        <a class="navbar-brand" href="#">Convention</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb" aria-expanded="true">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div id="navb" class="navbar-collapse collapse hide">
-            <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="index.php">Home</a>
-            </li>
-            </ul>
-            <?php
-                session_start();
-                if(is_NOTAnonymus()){
-                    Controllo_Utente();
-                    Controllo_Cookie(false);
-                    if (Database::connect()){
-                        $queryTab= "SELECT NomePart,CognomePart FROM Partecipante WHERE IDPart = ?";
-                        $parametri=["i",$_SESSION['idPart']];
-                        if($risultatoUser=Database::executeQuery($queryTab,$parametri,true)){
-                            if (($risultatoUser->num_rows) == 1){
-                                #controllo se l'id dell'utente esiste
-                                $Risposta_user=$risultatoUser->fetch_assoc();
-                                $htmlmio = <<<XYZ
-                                <ul class="nav navbar-nav ml-auto dropleft">
-                                    <div class="dropdown">
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Info Account</a>
-                                    <a class="dropdown-item" href="destroyer_session.php"><span class="fas fa-sign-in-alt"></span> Logout</a>
-                                    </div>
-                                </div>
-                                    <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link" href="#"><span class="fas fa-user"> {$Risposta_user['CognomePart']} </span></a>
-                                    </div>
-                                </li>
-                                </ul>
-                                XYZ;
-                                echo $htmlmio;
-                            }
-                            else{
-                                    header("Location: ./destroyer_session.php?call=controllo utente 2 header");
-                                    exit;
-                            }
-                        }
-                    }
-                }
-                else{
-                    $htmlmio = <<<XYZ
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="register.php"><span class="fas fa-user"></span> Registrati</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="login.php"><span class="fas fa-sign-in-alt"></span> Accedi</a>
-                        </li>
-                    </ul>
-                    XYZ;
-                    echo $htmlmio;
-                }
-            ?>
-        </div>
-    </nav>
+    
     <div class="container-fluid p-3">
         <?php
             //fare in modo di creare versione incognita con tutti gli speech
@@ -85,7 +21,7 @@
                 echo (intval($_COOKIE['Tempo_Sessione']) - time())."<br>";
                 if (Database::connect()){
                     if(isPart()){
-                        $queryTab= "SELECT FasciaOraria,Titolo,Argomento,IDSpeech FROM Sceglie,Programma,Speech WHERE Sceglie.IDProgramma_fk = Programma.IDProgramma AND Speech.IDSpeech = Programma.IDSpeech_fk AND Sceglie.IDPart_fk = ?";
+                        $queryTab= "SELECT FasciaOraria,Titolo,Argomento,IDSpeech,NpostiSala,Numero,PostiRimasti FROM Sceglie,Programma,Speech,Sala,Piano,PostiRimastiPerFasciaOraria WHERE Sceglie.IDProgramma_fk = Programma.IDProgramma AND Speech.IDSpeech = Programma.IDSpeech_fk AND Programma.NomeSala_fk = Sala.NomeSala AND Sala.Numero_fk = Piano.Numero AND Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView AND Sceglie.IDPart_fk = ?";
                         $parametri=["i",$_SESSION['idPart']];
                         if($risultatoSpeech=Database::executeQuery($queryTab,$parametri,true)){
                             $htmlmio=<<<XYZ
@@ -107,6 +43,8 @@
                                             <th>Orario evento</th>
                                             <th>Titolo</th>
                                             <th>Argomento</th>
+                                            <th>Piano</th>
+                                            <th>Posti Rimasti</th>
                                             <th>Azioni</th>
                                         </tr>
                                     </thead>
@@ -118,6 +56,8 @@
                                         echo "<td>" . $Risposta_speech["FasciaOraria"] . "</td>";
                                         echo "<td>" . $Risposta_speech["Titolo"] . "</td>";
                                         echo "<td>" . $Risposta_speech["Argomento"] . "</td>";
+                                        echo "<td>" . $Risposta_speech["Numero"] . "</td>";
+                                        echo "<td>" . $Risposta_speech["PostiRimasti"] . "</td>";
                                         echo "<td><form action='Abbandona.php' method='POST'><input type='hidden' name='IdPart' value=".$_SESSION['idPart']." /><input type='hidden' name='QualeSpeech' value=".$Risposta_speech["IDSpeech"]." /><button type='submit' class='btn btn-danger'>Abbandona</button></form></td>";
                                     echo "<tr>";
                                 }
@@ -153,15 +93,16 @@
                             if (!($risultatoSpeech->num_rows) == 0){
                                 #controllo la query ha prodotto dei risultati
                                 $htmlmio=<<<XYZ
-                                <table class='table'>
-                                    <thead>
-                                        <tr>
-                                            <th>Orario evento</th>
-                                            <th>Titolo</th>
-                                            <th>Argomento</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody> 
+                                <div>
+                                    <table class='table'>
+                                        <thead>
+                                            <tr>
+                                                <th>Orario evento</th>
+                                                <th>Titolo</th>
+                                                <th>Argomento</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody> 
                                 XYZ;
                                 echo $htmlmio;
                                 while($Risposta_speech=mysqli_fetch_array($risultatoSpeech)) {
@@ -172,9 +113,11 @@
                                     echo "<tr>";
                                 }
                                 $htmlmio =<<<XYZ
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 XYZ;
+
                             }
                             else{
                                 echo "Non fai da relatore a nessun speech";
@@ -189,7 +132,7 @@
             else{
                 if (Database::connect()){
                     #Ottengo lista Speech con un bottone aggiungi
-                    $queryTab= "SELECT DISTINCT FasciaOraria,Titolo,Argomento,IDSpeech,NpostiSala,Numero FROM Sceglie,Programma,Speech,Sala,Piano WHERE Sceglie.IDProgramma_fk = Programma.IDProgramma AND Speech.IDSpeech = Programma.IDSpeech_fk AND Programma.NomeSala_fk = Sala.NomeSala AND Sala.Numero_fk = Piano.Numero";
+                    $queryTab= "SELECT DISTINCT FasciaOraria,Titolo,Argomento,IDSpeech,NpostiSala,Numero,PostiRimasti FROM Sceglie,Programma,Speech,Sala,Piano,PostiRimastiPerFasciaOraria WHERE Sceglie.IDProgramma_fk = Programma.IDProgramma AND Speech.IDSpeech = Programma.IDSpeech_fk AND Programma.NomeSala_fk = Sala.NomeSala AND Sala.Numero_fk = Piano.Numero AND Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView";
                     if($risultatoSpeech=Database::executeQueryNormal($queryTab)){
                         echo "";
                         if (!($risultatoSpeech->num_rows) == 0){
@@ -209,12 +152,13 @@
                             XYZ;
                             echo $htmlmio;
                             while($Risposta_speech=mysqli_fetch_array($risultatoSpeech)) {
+                                $postiRimasti=$Risposta_speech["NpostiSala"]-$Risposta_speech["PostiRimasti"];
                                 echo "<tr>";
                                     echo "<td>" . $Risposta_speech["FasciaOraria"] . "</td>";
                                     echo "<td>" . $Risposta_speech["Titolo"] . "</td>";
                                     echo "<td>" . $Risposta_speech["Argomento"] . "</td>";
                                     echo "<td>" . $Risposta_speech["Numero"] . "</td>";
-                                    echo "<td>" ."?/". $Risposta_speech["NpostiSala"] . "</td>"; #aggiungere vista che permetta di vedere quanti posti rimangono, in caso non ci fosserò più posti diventa grigio
+                                    echo "<td>" .$Risposta_speech["PostiRimasti"]. "</td>"; #aggiungere vista che permetta di vedere quanti posti rimangono, in caso non ci fosserò più posti diventa grigio
                                 echo "<tr>";
                             }
                             $htmlmio =<<<XYZ

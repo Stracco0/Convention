@@ -73,9 +73,9 @@ CREATE TABLE IF NOT EXISTS User(
     PRIMARY KEY(Id_user)
 );
 CREATE VIEW PostiRimastiPerFasciaOraria AS
-SELECT p.IDProgramma,
-       p.FasciaOraria,
-       s.NomeSala,
+SELECT p.IDProgramma AS IDProgrammaView,
+       p.FasciaOraria AS FasciaOrariaView,
+       s.NomeSala AS NomeSalaView,
        s.NpostiSala - COUNT(sc.IDPart_fk) AS PostiRimasti
 FROM Programma p
 JOIN Sala s ON p.NomeSala_fk = s.NomeSala

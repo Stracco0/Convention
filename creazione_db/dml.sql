@@ -64,10 +64,10 @@ INSERT INTO Programma (FasciaOraria, IDSpeech_fk, NomeSala_fk) VALUES
 ('14:00:00', 4, 'Sala D'),
 ('15:30:00', 5, 'Sala E'),
 ('17:00:00', 6, 'Sala F'),
-('09:00:00', 7, 'Sala G'),
-('10:30:00', 8, 'Sala H'),
-('12:00:00', 9, 'Sala I'),
-('14:00:00', 10, 'Sala J');
+('18:00:00', 7, 'Sala G'),
+('19:30:00', 8, 'Sala H'),
+('21:00:00', 9, 'Sala I'),
+('23:00:00', 10, 'Sala J');
 
 -- Inserimento dati per la tabella Partecipante
 INSERT INTO Partecipante (NomePart, CognomePart, TipologiaPart) VALUES
