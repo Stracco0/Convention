@@ -72,5 +72,12 @@ CREATE TABLE IF NOT EXISTS User(
     FOREIGN KEY(IDPart_fk) REFERENCES Partecipante(IDPart) ON DELETE CASCADE,
     PRIMARY KEY(Id_user)
 );
-CREATE VIEW IF NOT EXISTS (Id_salav,NpostiDisponibili,id_programma)
-AS SELECT NomeSala,NpostiSala
+CREATE VIEW PostiRimastiPerFasciaOraria AS
+SELECT p.IDProgramma,
+       p.FasciaOraria,
+       s.NomeSala,
+       s.NpostiSala - COUNT(sc.IDPart_fk) AS PostiRimasti
+FROM Programma p
+JOIN Sala s ON p.NomeSala_fk = s.NomeSala
+LEFT JOIN Sceglie sc ON p.IDProgramma = sc.IDProgramma_fk
+GROUP BY p.IDProgramma, p.FasciaOraria, s.NomeSala;
