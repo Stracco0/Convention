@@ -81,7 +81,6 @@
         <?php
             //fare in modo di creare versione incognita con tutti gli speech
             if(is_NOTAnonymus()){
-                session_start();
                 Controllo_Utente();
                 echo (intval($_COOKIE['Tempo_Sessione']) - time())."<br>";
                 if (Database::connect()){
