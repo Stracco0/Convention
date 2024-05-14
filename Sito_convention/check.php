@@ -72,20 +72,26 @@
                         if ($clientpass == $rowRisUser["Password_user"]){
                             Database::disconnect();
                             $time = time()+1200;
-			                $timeMemo = (string)$time;
+                            $timeMemo = (string)$time;
                             setcookie("Tempo_Sessione",$timeMemo,$time); //mezz'ora di tempo
                             session_start();
-                            $_SESSION["mail_user"]=$rowRisUser["Mail"];
+                            $_SESSION["mail_user"]=$_POST['email_user'];
                             $_SESSION["idUser"]=$rowRisUser["id_user"];
-                            $_SESSION["idPart"]=$rowRisUser["IDPart_fk"];
-                            #accesso effettuato
-                            #session e cookie per salvare le credenziali per tot tempo,
-                            #reindirizza verso home.php con session e cookie
-                            if ($rowRisUser["IDRel_fk"]!=null){
-                                $_SESSION["RelAnche"]=true;
-                                $_SESSION["idRel"]=$rowRisUser["IDRel_fk"];
+                            if ($_POST['email_user']!="admin@admin.com"){
+                                $_SESSION["idPart"]=$rowRisUser["IDPart_fk"];
+                                #accesso effettuato
+                                #session e cookie per salvare le credenziali per tot tempo,
+                                #reindirizza verso home.php con session e cookie
+                                if ($rowRisUser["IDRel_fk"]!=null){
+                                    $_SESSION["RelAnche"]=true;
+                                    $_SESSION["idRel"]=$rowRisUser["IDRel_fk"];
+                                }
+                                header("Location: index.php");
                             }
-                            header("Location: index.php");
+                            else{
+                                //admin
+                                header("Location: admin.php");
+                            }
                         }
                         else{
                             #password non corretta

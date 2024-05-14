@@ -114,3 +114,6 @@ INSERT INTO Partecipante (NomePart, CognomePart, TipologiaPart) VALUES
 
 INSERT INTO User (Mail, Password_user, IDPart_fk, IDRel_fk) VALUES
 ('simone.verdi@example.com', SHA2('password_simone', 256), 11, 11);
+
+INSERT INTO User (Mail, Password_user) VALUES
+('admin@admin.com', SHA2('admin', 256));

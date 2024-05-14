@@ -11,18 +11,18 @@
         </ul>
         <?php
             include_once("dependences.php");
-            echo "ciao";
             session_start();
             if(is_NOTAnonymus()){
                 Controllo_Utente();
                 Controllo_Cookie(false);
                 if (Database::connect()){
-                    $queryTab= "SELECT NomePart,CognomePart FROM Partecipante WHERE IDPart = ?";
-                    $parametri=["i",$_SESSION['idPart']];
+                    $queryTab= "SELECT Mail FROM User WHERE id_user = ?";
+                    $parametri=["i",$_SESSION['idUser']];
                     if($risultatoUser=Database::executeQuery($queryTab,$parametri,true)){
                         if (($risultatoUser->num_rows) == 1){
                             #controllo se l'id dell'utente esiste
                             $Risposta_user=$risultatoUser->fetch_assoc();
+                            $nome = strtok($Risposta_user['Mail'], '@');
                             $htmlmio = <<<XYZ
                             <ul class="nav navbar-nav ml-auto dropleft">
                                 <div class="dropdown">
@@ -31,7 +31,7 @@
                                 <a class="dropdown-item" href="destroyer_session.php"><span class="fas fa-sign-in-alt"></span> Logout</a>
                                 </div>
                             </div>
-                                <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link" href="#"><span class="fas fa-user"> {$Risposta_user['CognomePart']} </span></a>
+                                <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link" href="#"><span class="fas fa-user"> {$nome} </span></a>
                                 </div>
                             </li>
                             </ul>

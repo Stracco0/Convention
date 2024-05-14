@@ -4,10 +4,10 @@
             header("Location: ./destroyer_session.php?call=timeout");
             exit;
         }
-        elseif(!isset($_COOKIE["Tempo_Sessione"]) && ($wait==true)){
-            return true;
-        }else{
+        if(!(isset($_COOKIE["Tempo_Sessione"])) && ($wait==true)){
             return false;
+        }else{
+            return true;
         }
     };   
     function Controllo_Utente(){
@@ -20,7 +20,7 @@
                     return true;
                 }
                 else{
-                    header("Location: ./destroyer_session.php?call=noexistsnomore");
+                    header("Location: ./destroyer_session.php?call=noexistsnomore".$_SESSION['idUser']);
                     exit;
                 }
             }else{
@@ -44,7 +44,7 @@
         }
     }
     function is_NOTAnonymus() {
-        if(isArel() || isPart()){
+        if(isset($_SESSION["idUser"])){
             return true;
         }
         else{

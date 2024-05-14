@@ -15,7 +15,7 @@
     ?>
     <div class="container-fluid p-3">
         <?php
-                echo "<a href='index.php'><button class='btn btn-primary'>Indietro</button></a>";
+                echo "<a href='index.php'><button class='btn btn-primary mb-2'>Indietro</button></a>";
                 if(Controllo_Utente()){
                     #l'utente ha cliccato ed è autenticato quindi aggiorno tempo sessione
                     RefreshTempo();
@@ -23,7 +23,6 @@
                         #Ottengo lista Speech con un bottone aggiungi
                         $queryTab= "SELECT DISTINCT FasciaOraria,Titolo,Argomento,IDSpeech,NpostiSala,Numero,PostiRimasti FROM Sceglie,Programma,Speech,Sala,Piano,PostiRimastiPerFasciaOraria WHERE Sceglie.IDProgramma_fk = Programma.IDProgramma AND Speech.IDSpeech = Programma.IDSpeech_fk AND Programma.NomeSala_fk = Sala.NomeSala AND Sala.Numero_fk = Piano.Numero AND Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView";
                         if($risultatoSpeech=Database::executeQueryNormal($queryTab)){
-                            echo "";
                             if (!($risultatoSpeech->num_rows) == 0){
                                 #controllo la query ha prodotto dei risultati
                                 $htmlmio=<<<XYZ
@@ -61,7 +60,7 @@
                                 XYZ;
                             }
                             else{
-                                echo "Non esiste nessuno speech in giornata";
+                                echo "<br>Non esiste nessuno speech in giornata";
                             }
                         }
                     }

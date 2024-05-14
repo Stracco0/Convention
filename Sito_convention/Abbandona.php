@@ -10,7 +10,11 @@
             $queryTab= "DELETE FROM Sceglie WHERE Sceglie.IDProgramma_fk = ? AND Sceglie.IDPart_fk = ?";
             $parametri=["ii",$_POST['QualeSpeech'],$_POST['IdPart']];
             $risultato=Database::executeQuery($queryTab,$parametri,false);
-            header("Location: ./index.php");
+            if (!(isset($_REQUEST["who"]))){
+                header("Location: ./index.php");
+            }elseif($_REQUEST["who"]=="Admin"){
+                header("Location: ./Partecipanti.php?Programma=".$_POST['QualeSpeech']."?ricarica=si");
+            }
         }
     }
     else{

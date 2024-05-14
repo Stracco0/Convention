@@ -18,7 +18,7 @@
             <div id="navb" class="navbar-collapse collapse hide">
                 <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="login.php">Login</a>
+                    <a class="nav-link" href="login.php">Register</a>
                 </li>
                 </ul>
             </div>
