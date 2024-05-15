@@ -14,15 +14,26 @@
     ?>
     <div class="container-fluid p-3">
     <a href='admin.php'><button class='btn btn-primary mb-2'>Indietro</button></a>
-    <div class="row">
-        <div class="col">
-            <h5 class='card-title p-2 text-center p-3'>titolo x</h5>
-        </div>
-    </div>
         <?php
         if (Database::connect()){
             if(Controllo_Cookie(true) && Controllo_Utente() && isset($_REQUEST["Programma"])){
                 RefreshTempo();
+                $queryTab= "SELECT Speech.Titolo AS TitoloSpeech FROM Programma JOIN Speech ON Programma.IDSpeech_fk = Speech.IDSpeech WHERE Programma.IDProgramma = ?";
+                $parametri=["i",$_REQUEST["Programma"]];
+                if($risultatoTitolo=Database::executeQuery($queryTab,$parametri,true)){
+                    if (!($risultatoTitolo->num_rows) == 0){
+                        $Risposta_speech2=$risultatoTitolo->fetch_assoc();
+                        $htmlmio=<<<XYZ
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class='card-title p-2 text-center p-3'>{$Risposta_speech2["TitoloSpeech"]}</h5>
+                                </div>
+                            </div>
+                        XYZ;
+                        echo $htmlmio;
+                    }
+                }
+
                 $queryTab= "SELECT IDPart, NomePart, CognomePart, TipologiaPart, Mail, IDSpeech_fk FROM Programma JOIN Sceglie ON Programma.IDProgramma = Sceglie.IDProgramma_fk LEFT JOIN Partecipante ON Sceglie.IDPart_fk = Partecipante.IDPart LEFT JOIN User ON Partecipante.IDPart = User.IDPart_fk WHERE Programma.IDProgramma = ?";
                 $parametri=["i",$_REQUEST["Programma"]];
                 if($risultatoSpeech=Database::executeQuery($queryTab,$parametri,true)){

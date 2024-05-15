@@ -11,6 +11,8 @@
             include "utilitis.php";
             Controllo_Cookie(false);
             $where="Aggiungi";
+            $returnto1="index.php";
+            $returnto2="AggiungiSpeech.php";
             include_once("navbar.php");
     ?>
     <div class="container-fluid p-3">

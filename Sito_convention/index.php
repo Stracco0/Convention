@@ -10,6 +10,8 @@
         include "Database.php";
         include "utilitis.php";
         $where="Home";
+        $returnto1="index.php";
+        $returnto2="index.php";
         include_once("navbar.php");
     ?>
     

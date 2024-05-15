@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
-    <a class="navbar-brand" href="index.php">Convention</a>
+    <a class="navbar-brand" href=<?php echo $returnto1;?>>Convention</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb" aria-expanded="true">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div id="navb" class="navbar-collapse collapse hide">
         <ul class="navbar-nav">
         <li class="nav-item active">
-            <a class="nav-link" href="index.php"><?php echo $where; ?></a>
+            <a class="nav-link" href=<?php echo $returnto2;?>><?php echo $where; ?></a>
         </li>
         </ul>
         <?php

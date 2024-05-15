@@ -17,6 +17,8 @@
     <?php
         include "Database.php";
         include "utilitis.php";
+        $returnto1="admin.php";
+        $returnto2="admin.php";
         $where="Admin";
         include_once("navbar.php");
     ?>
