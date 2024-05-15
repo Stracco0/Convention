@@ -1,0 +1,5 @@
+.card-header {
+    background: linear-gradient(to right, #007bff, #06b6ff);
+    color: #fff;
+    border-radius: 15px 15px 0 0;
+}

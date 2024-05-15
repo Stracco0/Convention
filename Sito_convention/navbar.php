@@ -27,7 +27,7 @@
                             <ul class="nav navbar-nav ml-auto dropleft">
                                 <div class="dropdown">
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Info Account</a>
+                                <a class="dropdown-item" href="information.php?nameuser=$nome">Info Account</a>
                                 <a class="dropdown-item" href="destroyer_session.php"><span class="fas fa-sign-in-alt"></span> Logout</a>
                                 </div>
                             </div>

@@ -49,15 +49,15 @@
                         <form action="check.php" method="post">
                             <input type="hidden" name="ArrivoDa" value="Login" />
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label"><b>Email</b></label>
                                 <input type="email" class="form-control" id="email" name="email_user" required>
                             </div>
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
+                                <label for="password" class="form-label"><b>Password</b></label>
                                 <input type="password" class="form-control" id="password" name="psw_user" required>
                             </div>
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col">
                                     <button type="submit" class="btn btn-primary btn-block">Accedi</button>
                                 </div>
                             </div>
