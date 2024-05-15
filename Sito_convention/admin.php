@@ -40,7 +40,7 @@
                                     $relatore_result = Database::executeQuery($queryRelatore,$parametriRelatore,true);
                                     $rowRelatore = $relatore_result->fetch_assoc();
                                     $htmlmio=<<<XYZ
-                                    <div class='col'>
+                                    <div class='col-lg-3 col-md-4 col-sm-6 col-12 mb-4'>
                                         <div class="card h-75">
                                             <h5 class='card-title mb-0 text-center text-white bg-primary p-3'>{$row["Titolo"]}</h5>
                                             <hr class="mb-0 mt-0"></hr>
