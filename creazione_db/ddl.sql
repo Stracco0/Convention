@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Programma(
     FasciaOraria TIME NULL,
     IDSpeech_fk INT(3) NULL,
     NomeSala_fk VARCHAR(20) NULL,
-    FOREIGN KEY(IDSpeech_fk) REFERENCES Speech(IDSpeech),
+    FOREIGN KEY(IDSpeech_fk) REFERENCES Speech(IDSpeech) ON DELETE CASCADE, 
     FOREIGN KEY(NomeSala_fk) REFERENCES Sala(NomeSala),
     PRIMARY KEY(IDProgramma)
 );
@@ -52,14 +52,14 @@ CREATE TABLE IF NOT EXISTS Sceglie(
     IDProgramma_fk INT(3) NOT NULL,
     IDPart_fk INT(3) NOT NULL,
     PRIMARY KEY(IDProgramma_fk,IDPart_fk),
-    FOREIGN KEY(IDProgramma_fk) REFERENCES Programma(IDProgramma),
+    FOREIGN KEY(IDProgramma_fk) REFERENCES Programma(IDProgramma) ON DELETE CASCADE,
     FOREIGN KEY(IDPart_fk) REFERENCES Partecipante(IDPart)
 );
 CREATE TABLE IF NOT EXISTS Relaziona(
     IDProgramma_fk INT(3) NOT NULL,
     IDRel_fk INT(3) NOT NULL,
     PRIMARY KEY(IDProgramma_fk,IDRel_fk),
-    FOREIGN KEY(IDProgramma_fk) REFERENCES Programma(IDProgramma),
+    FOREIGN KEY(IDProgramma_fk) REFERENCES Programma(IDProgramma) ON DELETE CASCADE,
     FOREIGN KEY(IDRel_fk) REFERENCES Relatore(IDRel)
 );
 CREATE TABLE IF NOT EXISTS User(

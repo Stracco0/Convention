@@ -15,6 +15,7 @@
             }elseif($_REQUEST["who"]=="Admin"){
                 header("Location: ./Partecipanti.php?Programma=".$_POST['QualeSpeech']."?ricarica=si");
             }
+            Database::disconnect();
         }
     }
     else{

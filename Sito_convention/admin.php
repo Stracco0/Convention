@@ -4,14 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zona Admin</title>
-    <?php include "dependencies.php"; ?>
-    <style>
-        iframe {
-            display:block;
-            width:  100% !important;
-            height: 100% ;
-        }
-    </style>
 </head>
 <body>
     <?php
@@ -23,6 +15,67 @@
         include_once("navbar.php");
     ?>
     <div class="container-fluid p-3">
+        <div class="row"><h2 class='card-title p-2 text-center p-3'>Azioni Disponibili</h2></div>
+        <div class="row justify-content-center text-center">
+            <div class="col-md-2 mb-3">
+                <div class="card">
+                    <div class="card-header text-center bg-primary text-white">
+                        <h3 class="mb-0">Aggiungi</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <a href="user.php" class="btn btn-outline-primary mb-2">Utente</a>
+                            <a href="choose.php?who=rel&action=add" class="btn btn-outline-primary mb-2">Relatore</a>
+                            <a href="formazienda.php" class="btn btn-outline-primary mb-2">Azienda</a>
+                            <!-- form per istanziare una azienda -->
+                            <a href="choose.php?who=part&action=add" class="btn btn-outline-primary mb-2">Partecipante</a>
+                            <a href="formspeech.php" class="btn btn-outline-primary mb-2">Speech</a>
+                            <!-- form per istanziare uno speech -->
+                            <a href="formprog.php" class="btn btn-outline-primary mb-2">Programma</a>
+                            <!-- form per istanziare una programma con select dello speech e sala a cui associarlo -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <div class="card">
+                    <div class="card-header text-center bg-success text-white">
+                        <h3 class="mb-0">Modifica</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <a href="choose.php?who=user&action=modify" class="btn btn-outline-success mb-2">Utente</a>
+                            <a href="choose.php?who=rel&action=modify" class="btn btn-outline-success mb-2">Relatore</a>
+                            <a href="choose.php?who=azienda&action=modify" class="btn btn-outline-success mb-2">Azienda</a>
+                            <a href="choose.php?who=part&action=modify" class="btn btn-outline-success mb-2">Partecipante</a>
+                            <a href="choose.php?who=speech&action=modify" class="btn btn-outline-success mb-2">Speech</a>
+                            <a href="choose.php?who=speech&action=programma" class="btn btn-outline-success mb-2">Programma</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <div class="card">
+                    <div class="card-header text-center bg-danger text-white">
+                        <h3 class="mb-0">Elimina</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <a href="choose.php?who=user&action=delete" class="btn btn-outline-danger mb-2">Utente</a>
+                            <a href="choose.php?who=rel&action=delete" class="btn btn-outline-danger mb-2">Relatore</a>
+                            <a href="choose.php?who=azienda&action=delete" class="btn btn-outline-danger mb-2">Azienda</a>
+                            <a href="choose.php?who=part&action=delete" class="btn btn-outline-danger mb-2">Partecipante</a>
+                            <a href="choose.php?who=programma&action=delete" class="btn btn-outline-danger mb-2">Programma</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2 class='card-title p-2 text-center p-3'>Speech Disponibili</h2>
+            </div>
+        </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
             <?php
                 if(Controllo_Cookie(true) && Controllo_Utente()){
@@ -52,18 +105,26 @@
                                                 <p class="card-text"><strong>Posti disponibili:</strong> {$row["PostiRimasti"]}</p>
                                             </div>
                                             <hr class="mb-0 mt-0"></hr>
-                                            <div class="row text-center p-2">
-                                                <div class="col">
-                                                <td><form action='Partecipanti.php' method='POST'><input type='hidden' name='Titolo' value={$row["Titolo"]} /><input type='hidden' name='Programma' value={$row["IDProgramma_fk"]} /><button type='submit' class='btn btn-primary'>Visualizza Partecipanti</button></form></td>
+                                            <div class="row p-2">
+                                                <div class="col text-center">
+                                                <td><form action='Partecipanti.php' method='POST'><input type='hidden' name='Titolo' value={$row["Titolo"]} /><input type='hidden' name='Programma' value={$row["IDProgramma_fk"]} /><button type='submit' class='btn btn-primary'><i class="fas fa-eye"></i> Visualizza Partecipanti</button></form></td>
                                                 </div>
                                                 <div class="col">
-                                                
+                                                </div>
+                                                <div class="col text-end">
+                                                    <form action='EliminaSpeech.php' method='POST'>
+                                                        <input type='hidden' name='IDSpeech' value={$row["IDSpeech"]}>
+                                                            <button type='submit' onClick="javascript: return confirm('Sicuro di voler eliminare lo Speech?');" title="Elimina Speech" class="btn btn-danger">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     XYZ;
                                     echo $htmlmio;
+
                                 }
                             } else {
                                 echo "Nessun speech trovato";

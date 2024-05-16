@@ -10,11 +10,22 @@
         include "Database.php";
         include "utilitis.php";
         Controllo_Cookie(false);
+        session_start();
         $where="Info Account";
-        $returnto1="index.php";
+        if ($_SESSION["mail_user"]=="admin@admin.com"){
+            $returnto1="admin.php";
+        }
+        else{
+            $returnto1="index.php";
+        }
         $returnto2="information.php?nameuser=".$_REQUEST["nameuser"];
         include_once("navbar.php");
     ?>
+    <div class="container-fluid p-3">
+        <?php
+            echo "<a href=".$returnto1."><button class='btn btn-primary mb-2'><i class='fas fa-arrow-left'></i></button></a>";
+        ?>
+    </div>
     <div class="container mt-5">
             <?php
                 if(Controllo_Utente()){

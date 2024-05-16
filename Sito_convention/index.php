@@ -29,15 +29,15 @@
             }
             elseif(isPart() && !isArel()){
                 $htmlmio=<<<XYZ
-                    <div class="col text-end pr-0">
-                        <form action="AggiungiSpeech.php" method="post">
-                            <button class="btn btn-secondary" type="submit">Aggiungi Speech</button>
-                        </form>
-                    </div>
                     <div class="row">
                         <div class="col">
-                            <h5 class='card-title p-2 text-center p-3'>PARTECEPI IN</h5>
+                            <h2 class='card-title p-2 text-center p-3'>PARTECEPI IN</h2>
                         </div>
+                    </div>
+                    <div class="col text-end pr-0 mb-3">
+                        <form action="AggiungiSpeech.php" method="post">
+                            <button class="btn btn-secondary" type="submit"><i class="fas fa-plus"></i> Aggiungi Speech</button>
+                        </form>
                     </div>
                 XYZ;
                 echo $htmlmio;
@@ -46,7 +46,7 @@
                 $htmlmio=<<<XYZ
                     <div class="row">
                         <div class="col">
-                            <h5 class='card-title p-2 text-center p-3'>FAI DA RELATORE IN</h5>
+                            <h2 class='card-title p-2 text-center p-3'>FAI DA RELATORE IN</h2>
                         </div>
                     </div>
                 XYZ;
@@ -92,8 +92,8 @@
                                                 </div>
                                                 <hr class="mb-0 mt-0"></hr>
                                                 <div class="row p-2">
-                                                    <div class="col">
-                                                        <form action="Abbandona.php" method="post"><input type="hidden" name="QualeSpeech" value={$row["IDSpeech"]}><input type="hidden" name="IdPart" value={$_SESSION['idPart']}><button class="btn btn-danger" type="submit">Abbandona</button></form>
+                                                    <div class="col text-end">
+                                                        <form action="Abbandona.php" method="post"><input type="hidden" name="QualeSpeech" value={$row["IDSpeech"]}><input type="hidden" name="IdPart" value={$_SESSION['idPart']}><button title="Abbandona Speech" onClick="javascript: return confirm('Sicuro di voler abbandonare lo Speech?');" class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button></form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -196,6 +196,7 @@
                                     }
                             } else {
                                 echo "Nessun speech trovato";
+                                Database::disconnect();
                             }
                                 
                         }

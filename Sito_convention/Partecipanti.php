@@ -13,7 +13,7 @@
     include_once("navbar.php");
     ?>
     <div class="container-fluid p-3">
-    <a href='admin.php'><button class='btn btn-primary mb-2'>Indietro</button></a>
+    <a href='admin.php'><button class='btn btn-primary mb-2'><i class='fas fa-arrow-left'></i></button></a>
         <?php
         if (Database::connect()){
             if(Controllo_Cookie(true) && Controllo_Utente() && isset($_REQUEST["Programma"])){
@@ -26,8 +26,18 @@
                         $htmlmio=<<<XYZ
                             <div class="row">
                                 <div class="col">
-                                    <h5 class='card-title p-2 text-center p-3'>{$Risposta_speech2["TitoloSpeech"]}</h5>
+                                    <h2 class='card-title p-2 text-center p-3'>{$Risposta_speech2["TitoloSpeech"]}</h2>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class='card-title p-2 text-center p-3'>Partecipanti</h5>
+                                </div>
+                            </div>
+                            <div class="col text-end mb-3 pr-0">
+                                <form action="AggiungiPersonal.php" method="post">
+                                    <button class="btn btn-secondary" type="submit"><i class="fas fa-plus"></i> Aggiungi Partecipanti</button>
+                                </form>
                             </div>
                         XYZ;
                         echo $htmlmio;
@@ -40,17 +50,18 @@
                     if (!($risultatoSpeech->num_rows) == 0){
                         #controllo la query ha prodotto dei risultati
                         $htmlmio=<<<XYZ
-                        <table class='table'>
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Cognome</th>
-                                    <th>Email</th>
-                                    <th>Tipologia</th>
-                                    <th>Azioni</th>
-                                </tr>
-                            </thead>
-                            <tbody> 
+                        <div class="card">
+                            <table class='table mb-0'>
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Cognome</th>
+                                        <th>Email</th>
+                                        <th>Tipologia</th>
+                                        <th>Azioni</th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
                         XYZ;
                         echo $htmlmio;
                         while($Risposta_speech=mysqli_fetch_array($risultatoSpeech)) {
@@ -65,11 +76,12 @@
                                 echo "<td>" . $Risposta_speech["CognomePart"] . "</td>";
                                 echo "<td>" . $maill . "</td>";
                                 echo "<td>" . $Risposta_speech["TipologiaPart"] . "</td>";
-                                echo "<td><form action='Abbandona.php?who=Admin' method='POST'><input type='hidden' name='IdPart' value=".$Risposta_speech['IDPart']." /><input type='hidden' name='QualeSpeech' value=".$Risposta_speech["IDSpeech_fk"]." /><button type='submit' class='btn btn-danger'>Elimina</button></form></td>";
+                                echo "<td><form action='Abbandona.php?who=Admin' method='POST'><input type='hidden' name='IdPart' value=".$Risposta_speech['IDPart']." /><input type='hidden' name='QualeSpeech' value=".$Risposta_speech["IDSpeech_fk"]." /><button onClick=\"javascript: return confirm('Sicuro?');\" type='submit' class='btn btn-danger' title='Elimina Partecipante dallo Speech'><i class='fas fa-trash-alt'></i></button></form></td>";
                             echo "<tr>";
                         } 
                         $htmlmio =<<<XYZ
-                            </tbody>
+                                </tbody>
+                            </div>
                         </table>
                         XYZ;
                         echo $htmlmio;
