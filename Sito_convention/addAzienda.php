@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aggiungi Utente</title>
-    <link rel="stylesheet" href="./css/register.css">
+    <title>Aggiungi Azienda</title>
 </head>
 <body>
     <?php
@@ -26,8 +25,8 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header text-center bg-primary text-white">
-                        <h3 class="mb-0">Aggiungi Utente</h3>
+                    <div class="card-header text-center ">
+                        <h3 class="mb-0">Aggiungi Azienda</h3>
                     </div>
                     <div class="card-body">
                         <form action="Aggiungi_entita.php" method="post">
@@ -36,29 +35,22 @@
                                 <input type="text" class="form-control" id="nome" name="Nome" required>
                             </div>
                             <div class="mb-3">
-                                <label for="cognome" class="form-label">Cognome</label>
-                                <input type="text" class="form-control" id="cognome" name="Cognome" required>
+                                <label for="indirizzo" class="form-label">Indirizzo Azienda</label>
+                                <input type="text" class="form-control" id="indirizzo" name="Indirizzo" required>
                             </div>
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email_user" required>
+                                <label for="telefonoAzienda" class="form-label">Telefono Aziendale</label>
+                                <input type="text" class="form-control" id="telefonoAzienda" name="telefonoAzienda" required>
                             </div>
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="psw_user" required>
+                                <label for="RSA" class="form-label">RagioneSocialeAzienda</label>
+                                <input type="text" class="form-control" id="RSA" name="RSA" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="tipologia" class="form-label">Tipologia</label>
-                                <input type="text" class="form-control" id="tipologia" name="Tipologia" required>
-                            </div>
-                            <input type="hidden" name="entity" value="user">
+                            <input type="hidden" name="entity" value="azienda">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Aggiungi Utente</button>
+                                <button type="submit" class="btn btn-primary w-100">Aggiungi Azienda</button>
                             </div>
                         </form>
-                    </div>
-                    <div class="card-footer text-muted text-center">
-                        <a href="./admin.php">Torna indietro</a>
                     </div>
                 </div>
             </div>

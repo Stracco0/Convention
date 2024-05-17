@@ -24,14 +24,13 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex flex-column">
-                            <a href="user.php" class="btn btn-outline-primary mb-2">Utente</a>
+                            <a href="adduser.php" class="btn btn-outline-primary mb-2">Utente</a>
                             <a href="choose.php?who=rel&action=add" class="btn btn-outline-primary mb-2">Relatore</a>
-                            <a href="formazienda.php" class="btn btn-outline-primary mb-2">Azienda</a>
-                            <!-- form per istanziare una azienda -->
+                            <a href="addAzienda.php" class="btn btn-outline-primary mb-2">Azienda</a>
                             <a href="choose.php?who=part&action=add" class="btn btn-outline-primary mb-2">Partecipante</a>
-                            <a href="formspeech.php" class="btn btn-outline-primary mb-2">Speech</a>
+                            <a href="addSpeech.php" class="btn btn-outline-primary mb-2">Speech</a>
                             <!-- form per istanziare uno speech -->
-                            <a href="formprog.php" class="btn btn-outline-primary mb-2">Programma</a>
+                            <a href="choose.php?who=programma&action=add" class="btn btn-outline-primary mb-2">Programma</a>
                             <!-- form per istanziare una programma con select dello speech e sala a cui associarlo -->
                         </div>
                     </div>
@@ -49,7 +48,7 @@
                             <a href="choose.php?who=azienda&action=modify" class="btn btn-outline-success mb-2">Azienda</a>
                             <a href="choose.php?who=part&action=modify" class="btn btn-outline-success mb-2">Partecipante</a>
                             <a href="choose.php?who=speech&action=modify" class="btn btn-outline-success mb-2">Speech</a>
-                            <a href="choose.php?who=speech&action=programma" class="btn btn-outline-success mb-2">Programma</a>
+                            <a href="choose.php?who=programma&action=modify" class="btn btn-outline-success mb-2">Programma</a>
                         </div>
                     </div>
                 </div>
@@ -91,14 +90,24 @@
                                     $queryRelatore = "SELECT Relatore.NomeRel, Relatore.CognomeRel FROM Relatore JOIN Relaziona ON Relatore.IDRel = Relaziona.IDRel_fk WHERE Relaziona.IDProgramma_fk = ?";
                                     $parametriRelatore=["i",$row["IDSpeech"]];
                                     $relatore_result = Database::executeQuery($queryRelatore,$parametriRelatore,true);
-                                    $rowRelatore = $relatore_result->fetch_assoc();
+                                    if($relatore_result->num_rows > 1){
+                                        $isplural="i";
+                                        $relatori="";
+                                        while($rowRelatore = $relatore_result->fetch_assoc()){
+                                            $relatori=$relatori.$rowRelatore["NomeRel"]." ".$rowRelatore["CognomeRel"].", ";
+                                        }
+                                    }else{
+                                        $rowRelatore = $relatore_result->fetch_assoc();
+                                        $isplural="e";
+                                        $relatori=$rowRelatore["NomeRel"]." ".$rowRelatore["CognomeRel"];
+                                    }
                                     $htmlmio=<<<XYZ
                                     <div class='col-lg-3 col-md-4 col-sm-6 col-12 mb-4'>
                                         <div class="card h-75">
                                             <h5 class='card-title mb-0 text-center text-white bg-primary p-3'>{$row["Titolo"]}</h5>
                                             <hr class="mb-0 mt-0"></hr>
                                             <div class="card-body overflow-auto border-top">
-                                                <p class="card-text"><strong>Relatore:</strong> {$rowRelatore["NomeRel"]} {$rowRelatore["CognomeRel"]}</p>
+                                                <p class="card-text"><strong>Relator{$isplural}:</strong> {$relatori}</p>
                                                 <p class="card-text"><strong>Descrizione:</strong> {$row["Argomento"]}</p>
                                                 <p class="card-text"><strong>Orario:</strong> $Orario</p>
                                                 <p class="card-text"><strong>Sala:</strong> {$row["Numero"]}</p>
