@@ -6,16 +6,16 @@ INSERT INTO Piano (Numero) VALUES
 
 -- Inserimento dati per la tabella Sala
 INSERT INTO Sala (NomeSala, NpostiSala, Numero_fk) VALUES
-('Sala A', 50, '001'),
-('Sala B', 30, '002'),
-('Sala C', 100, '003'),
-('Sala D', 20, '004'),
-('Sala E', 80, '005'),
-('Sala F', 40, '006'),
-('Sala G', 60, '007'),
-('Sala H', 70, '008'),
-('Sala I', 25, '009'),
-('Sala J', 90, '010');
+('Sala_A', 50, '001'),
+('Sala_B', 30, '002'),
+('Sala_C', 100, '003'),
+('Sala_D', 20, '004'),
+('Sala_E', 80, '005'),
+('Sala_F', 40, '006'),
+('Sala_G', 60, '007'),
+('Sala_H', 70, '008'),
+('Sala_I', 25, '009'),
+('Sala_J', 90, '010');
 
 -- Inserimento dati per la tabella Speech
 INSERT INTO Speech (Titolo, Argomento) VALUES
@@ -32,42 +32,42 @@ INSERT INTO Speech (Titolo, Argomento) VALUES
 
 -- Inserimento dati per la tabella Azienda
 INSERT INTO Azienda (RagioneSocialeAzienda, Nome, IndirizzoAzienda, TelefonoAzienda) VALUES
-('Azienda Innovativa Srl', 'Innovativa', 'Via Roma 123', '0123456789'),
-('Visione Avanzata Spa', 'Avanzata', 'Corso Italia 456', '0987654321'),
-('Eccellenza Tecnologica Srl', 'Eccellenza', 'Piazza Garibaldi 789', '0345678901'),
-('Futuro Digitale Spa', 'Futuro Digitale', 'Via Dante 1011', '0456789012'),
-('Prospettive Globali Srl', 'Prospettive Globali', 'Corso Vittorio Emanuele 1213', '0567890123'),
-('Creatività Illimitata Spa', 'Creatività Illimitata', 'Piazza Duomo 1415', '0678901234'),
-('Progresso Tecnologico Srl', 'Progresso', 'Via Milano 1617', '0789012345'),
-('Avanzamento Sostenibile Spa', 'Avanzamento Sostenibile', 'Corso Venezia 1819', '0890123456'),
-('Soluzioni Creative Srl', 'Soluzioni Creative', 'Piazza San Carlo 2021', '0901234567'),
-('Innovazione Continua Spa', 'Innovazione Continua', 'Via Po 2223', '0912345678');
+('AziendaInnovativaSrl', 'Innovativa', 'Via_Roma_123', '0123456789'),
+('VisioneAvanzataSpa', 'Avanzata', 'Corso_Italia_456', '0987654321'),
+('EccellenzaTecnologicaSrl', 'Eccellenza', 'Piazza_Garibaldi_789', '0345678901'),
+('FuturoDigitaleSpa', 'Futuro_Digitale', 'Via_Dante_1011', '0456789012'),
+('ProspettiveGlobaliSrl', 'Prospettive_Globali', 'Corso_Vittorio_Emanuele_1213', '0567890123'),
+('CreativitàIllimitataSpa', 'Creatività_Illimitata', 'Piazza_Duomo_1415', '0678901234'),
+('ProgressoTecnologicoSrl', 'Progresso', 'Via_Milano_1617', '0789012345'),
+('AvanzamentoSostenibileSpa', 'Avanzamento_Sostenibile', 'Corso_Venezia_1819', '0890123456'),
+('SoluzioniCreativeSrl', 'Soluzioni_Creative', 'Piazza_San_Carlo_2021', '0901234567'),
+('InnovazioneContinuaSpa', 'Innovazione_Continua', 'Via_Po_2223', '0912345678');
 
 -- Inserimento dati per la tabella Relatore
 INSERT INTO Relatore (NomeRel, CognomeRel, RSAzienda_fk) VALUES
-('Mario', 'Rossi', 'Azienda Innovativa Srl'),
-('Laura', 'Bianchi', 'Visione Avanzata Spa'),
-('Giovanni', 'Verdi', 'Eccellenza Tecnologica Srl'),
-('Chiara', 'Neri', 'Futuro Digitale Spa'),
-('Alessandro', 'Bianco', 'Prospettive Globali Srl'),
-('Francesca', 'Verde', 'Creatività Illimitata Spa'),
-('Luigi', 'Gialli', 'Progresso Tecnologico Srl'),
-('Martina', 'Rosa', 'Avanzamento Sostenibile Spa'),
-('Simone', 'Blu', 'Soluzioni Creative Srl'),
-('Sara', 'Arancio', 'Innovazione Continua Spa');
+('Mario', 'Rossi', 'AziendaInnovativaSrl'),
+('Laura', 'Bianchi', 'VisioneAvanzataSpa'),
+('Giovanni', 'Verdi', 'EccellenzaTecnologicaSrl'),
+('Chiara', 'Neri', 'FuturoDigitaleSpa'),
+('Alessandro', 'Bianco', 'ProspettiveGlobaliSrl'),
+('Francesca', 'Verde', 'CreativitàIllimitataSpa'),
+('Luigi', 'Gialli', 'ProgressoTecnologicoSrl'),
+('Martina', 'Rosa', 'AvanzamentoSostenibileSpa'),
+('Simone', 'Blu', 'SoluzioniCreativeSrl'),
+('Sara', 'Arancio', 'InnovazioneContinuaSpa');
 
 -- Inserimento dati per la tabella Programma
 INSERT INTO Programma (FasciaOraria, IDSpeech_fk, NomeSala_fk) VALUES
-('09:00:00', 1, 'Sala A'),
-('10:30:00', 2, 'Sala B'),
-('12:00:00', 3, 'Sala C'),
-('14:00:00', 4, 'Sala D'),
-('15:30:00', 5, 'Sala E'),
-('17:00:00', 6, 'Sala F'),
-('18:00:00', 7, 'Sala G'),
-('19:30:00', 8, 'Sala H'),
-('21:00:00', 9, 'Sala I'),
-('23:00:00', 10, 'Sala J');
+('09:00:00', 1, 'Sala_A'),
+('10:30:00', 2, 'Sala_B'),
+('12:00:00', 3, 'Sala_C'),
+('14:00:00', 4, 'Sala_D'),
+('15:30:00', 5, 'Sala_E'),
+('17:00:00', 6, 'Sala_F'),
+('18:00:00', 7, 'Sala_G'),
+('19:30:00', 8, 'Sala_H'),
+('21:00:00', 9, 'Sala_I'),
+('23:00:00', 10, 'Sala_J');
 
 -- Inserimento dati per la tabella Partecipante
 INSERT INTO Partecipante (NomePart, CognomePart, TipologiaPart) VALUES
@@ -107,7 +107,7 @@ INSERT INTO User (Mail, Password_user, IDPart_fk, IDRel_fk) VALUES
 
 -- Jolly
 INSERT INTO Relatore (NomeRel, CognomeRel, RSAzienda_fk) VALUES
-('Simone', 'Verdi', 'Azienda Innovativa Srl');
+('Simone', 'Verdi', 'AziendaInnovativaSrl');
 
 INSERT INTO Partecipante (NomePart, CognomePart, TipologiaPart) VALUES
 ('Simone', 'Verdi', 'Delegato');

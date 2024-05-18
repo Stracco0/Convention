@@ -12,6 +12,7 @@
         $where="Admin";
         include_once("./navbar.php");
         Controllo_Cookie(false);
+        Controllo_Utente_admin();
         if(Controllo_Utente() && $_SESSION["mail_user"]=="admin@admin.com" && isset($_REQUEST["who"])){
             RefreshTempo();
         }
@@ -22,10 +23,15 @@
         if (Database::connect()){
             switch($_REQUEST["who"]) {
                 case 'user':
-                    $actionwhere="adduser.php";
+                    if($_REQUEST["action"]!="delete"){
+                        $actionwhere="adduser.php";
+                    }
+                    else{
+                        $actionwhere="Elimina_entita.php";
+                    }
                     $queryTab= "SELECT Id_user AS id, Mail AS totnome FROM User";
                     if($risultato=Database::executeQueryNormal($queryTab)){
-                    $who2="l'utente";
+                    $who2="l'Utente";
                     }else{
                         echo "failed";
                         exit;
@@ -33,8 +39,9 @@
                     break;
                 case 'rel':
                     if ($_REQUEST["action"]=="add"){
+                        $actionwhere="addRelatore.php";
                         $who2="l'Utente a cui associarlo";
-                        $queryTab= "SELECT Id_user AS id, Mail AS totnome FROM User";
+                        $queryTab= "SELECT Id_user AS id, Mail AS totnome FROM User WHERE IDRel_fk IS NULL";
                         if($risultato=Database::executeQueryNormal($queryTab)){   
                         }
                         else{
@@ -42,7 +49,17 @@
                             exit;
                         }
                     }
-                    else{
+                    elseif($_REQUEST["action"]=="modify"){
+                        $actionwhere="addRelatore.php";
+                        $who2="il Relatore";
+                        $queryTab= "SELECT IDRel AS id, CONCAT(NomeRel, ' ', CognomeRel) AS totnome FROM Relatore";
+                        if($risultato=Database::executeQueryNormal($queryTab)){    
+                        }else{
+                            echo "failed";
+                            exit;
+                        }
+                    }else{
+                        $actionwhere="Elimina_entita.php";
                         $who2="il Relatore";
                         $queryTab= "SELECT IDRel AS id, CONCAT(NomeRel, ' ', CognomeRel) AS totnome FROM Relatore";
                         if($risultato=Database::executeQueryNormal($queryTab)){    
@@ -53,6 +70,11 @@
                     }
                     break;
                 case 'azienda':
+                    if($_REQUEST["action"]=="modify"){
+                        $actionwhere="addAzienda.php";
+                    }else{
+                        $actionwhere="Elimina_entita.php";
+                    }
                     $who2="l'Azienda";
                     $queryTab= "SELECT RagioneSocialeAzienda AS id, Nome AS totnome FROM Azienda";
                     if($risultato=Database::executeQueryNormal($queryTab)){
@@ -64,8 +86,9 @@
                     break;
                 case ('part'):
                     if ($_REQUEST["action"]=="add"){
+                        $actionwhere="addPart.php";
                         $who2="l'Utente a cui associarlo";
-                        $queryTab= "SELECT Id_user AS id, Mail AS totnome FROM User";
+                        $queryTab= "SELECT Id_user AS id, Mail AS totnome FROM User WHERE IDPart_fk IS NULL";
                         if($risultato=Database::executeQueryNormal($queryTab)){   
                         }
                         else{
@@ -73,7 +96,18 @@
                             exit;
                         }
                     }
-                    else{
+                    elseif($_REQUEST["action"]=="modify"){
+                        $actionwhere="addPart.php";
+                        $who2="il Partecipante";
+                        $queryTab= "SELECT IDPart AS id, CONCAT(NomePart, ' ', CognomePart) AS totnome FROM Partecipante";
+                        if($risultato=Database::executeQueryNormal($queryTab)){   
+                        }
+                        else{
+                            echo "failed";
+                            exit;
+                        }
+                    }else{
+                        $actionwhere="Elimina_entita.php";
                         $who2="il Partecipante";
                         $queryTab= "SELECT IDPart AS id, CONCAT(NomePart, ' ', CognomePart) AS totnome FROM Partecipante";
                         if($risultato=Database::executeQueryNormal($queryTab)){   
@@ -85,10 +119,10 @@
                     }
                     break;
                 case 'speech':
+                    $actionwhere="addSpeech.php";
                     $who2="lo speech";
                     $queryTab= "SELECT IDSpeech AS id, Titolo AS totnome FROM Speech";
                     if($risultato=Database::executeQueryNormal($queryTab)){
-                            
                     }else{
                         echo "failed";
                         exit;
@@ -96,6 +130,7 @@
                     break;
                 case 'programma':
                     if($_REQUEST["action"]=="add"){
+                        $actionwhere="addProgramma.php";
                         $who2="lo speech e la sala a cui vuoi associarlo";
                         $queryTab="SELECT Sala.NomeSala AS id, Sala.NomeSala AS nome FROM Sala JOIN PostiRimastiPerFasciaOraria ON Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView WHERE PostiRimastiPerFasciaOraria.PostiRimasti > 0";
                         if($risultato2=Database::executeQueryNormal($queryTab)){
@@ -113,6 +148,7 @@
                         $flagprogramma=true;
                     }
                     else{
+                        $actionwhere="addProgramma.php";
                         $who2="il programma";
                         $queryTab= "SELECT Programma.IDProgramma AS id, CONCAT(Programma.FasciaOraria, ' - ', Speech.Titolo) AS totnome, Sala.NomeSala AS sala FROM Programma JOIN Speech ON Programma.IDSpeech_fk = Speech.IDSpeech JOIN Sala ON Programma.NomeSala_fk = Sala.NomeSala";
                         if($risultato=Database::executeQueryNormal($queryTab)){
@@ -143,6 +179,11 @@
                         <h3 class="text-center">Scegli <?php echo $who2?></h3>
                     </div>
                     <div class="card-body">
+                        <?php
+                            if($_REQUEST["message"]=="ElimSuccesfull"){
+                                echo "<div class='alert alert-primary' role='alert'>User eliminato!</div>";
+                            }
+                        ?>
                         <form action=<?php echo $actionwhere;?> method="post">
                             <div class="form-group">
                             <input type="hidden" name="action2" value=<?php echo $_REQUEST["action"]?> />
@@ -175,6 +216,7 @@
                             </div>
                             <?php
                                 if ($_REQUEST["action"]=="delete") {
+                                    echo '<input type="hidden" name="whoelim" value='.$_REQUEST["who"].">";
                                     echo '<button type="submit" onClick="javascript: return confirm(\'Sicuro di volerlo eliminare?\');" class="btn btn-danger btn-block">Elimina</button>';
                                 }
                                 elseif($_REQUEST["action"]=="modify"){

@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Relatore(
     CognomeRel VARCHAR(20) NULL,
     RSAzienda_fk VARCHAR(30) NULL,
     PRIMARY KEY (IDRel),
-    FOREIGN KEY(RSAzienda_fk) REFERENCES Azienda(RagioneSocialeAzienda) ON DELETE CASCADE
+    FOREIGN KEY(RSAzienda_fk) REFERENCES Azienda(RagioneSocialeAzienda) ON DELETE SET NULL
 );
 CREATE TABLE IF NOT EXISTS Programma(
     IDProgramma INT(3) NOT NULL AUTO_INCREMENT,
@@ -53,14 +53,14 @@ CREATE TABLE IF NOT EXISTS Sceglie(
     IDPart_fk INT(3) NOT NULL,
     PRIMARY KEY(IDProgramma_fk,IDPart_fk),
     FOREIGN KEY(IDProgramma_fk) REFERENCES Programma(IDProgramma) ON DELETE CASCADE,
-    FOREIGN KEY(IDPart_fk) REFERENCES Partecipante(IDPart)
+    FOREIGN KEY(IDPart_fk) REFERENCES Partecipante(IDPart) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS Relaziona(
     IDProgramma_fk INT(3) NOT NULL,
     IDRel_fk INT(3) NOT NULL,
     PRIMARY KEY(IDProgramma_fk,IDRel_fk),
     FOREIGN KEY(IDProgramma_fk) REFERENCES Programma(IDProgramma) ON DELETE CASCADE,
-    FOREIGN KEY(IDRel_fk) REFERENCES Relatore(IDRel)
+    FOREIGN KEY(IDRel_fk) REFERENCES Relatore(IDRel) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS User(
     Id_user INT(3) NOT NULL AUTO_INCREMENT,

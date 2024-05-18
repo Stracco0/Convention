@@ -28,7 +28,31 @@
                 exit;
             }
         }
-    } 
+    }
+    function Controllo_Utente_admin(){
+        if (Database::connect()){
+            $queryTab= "SELECT Mail FROM User WHERE id_user = ?";
+            $parametri=["i",$_SESSION['idUser']];
+            if($risultatoUser=Database::executeQuery($queryTab,$parametri,true)){
+                if (($risultatoUser->num_rows) == 1){
+                    $risultatoUser=$risultatoUser->fetch_assoc();
+                    if($risultatoUser["Mail"]!="admin@admin.com"){
+                        header("Location: ./destroyer_session.php?call=noexistsnomore".$_SESSION['idUser']);
+                        exit;
+                    }else{
+                        return true;
+                    }
+                }
+                else{
+                    header("Location: ./destroyer_session.php?call=noexistsnomore".$_SESSION['idUser']);
+                    exit;
+                }
+            }else{
+                header("Location: ./destroyer_session.php?call=error internal");
+                exit;
+            }
+        }
+    }  
     function isArel(){
         if(isset($_SESSION["RelAnche"])){
             return true;

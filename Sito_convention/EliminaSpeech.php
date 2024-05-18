@@ -2,6 +2,7 @@
     include "Database.php";
     include "utilitis.php";
     Controllo_Cookie(false);
+    Controllo_Utente_admin();
     session_start();
     if(Controllo_Utente()){
         #l'utente ha cliccato ed è autenticato quindi aggiorno tempo sessione

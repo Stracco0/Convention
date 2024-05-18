@@ -13,6 +13,44 @@
         $returnto2="admin.php";
         $where="Admin";
         include_once("navbar.php");
+        Controllo_Cookie(false);
+        Controllo_Utente_admin();
+        if ($_REQUEST["confirmer"]=="addedProgramma"){
+            echo "<div class=' m-2 alert alert-primary' role='alert'>Programma aggiunto!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="modifiedSpeech"){
+            echo "<div class=' m-2 alert alert-success' role='alert'>Speech modificato!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="addedSpeech"){
+            echo "<div class=' m-2 alert alert-primary' role='alert'>Speech aggiunto!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="delPart"){
+            echo "<div class=' m-2 alert alert-danger' role='alert'>Partecipante eliminato!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="modifiedPart"){
+            echo "<div class=' m-2 alert alert-success' role='alert'>Partecipante modificato!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="addedPart"){
+            echo "<div class=' m-2 alert alert-primary' role='alert'>Partecipante aggiunto!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="delAzienda"){
+            echo "<div class=' m-2 alert alert-danger' role='alert'>Azienda eliminata!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="modifiedAzienda"){
+            echo "<div class=' m-2 alert alert-success' role='alert'>Azienda modificata!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="addedAzienda"){
+            echo "<div class=' m-2 alert alert-primary' role='alert'>Azienda aggiunta!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="addedRel"){
+            echo "<div class=' m-2 alert alert-primary' role='alert'>Relatore aggiunto!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="modifiedRel"){
+            echo "<div class=' m-2 alert alert-success' role='alert'>Relatore modificato!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="delRel"){
+            echo "<div class=' m-2 alert alert-danger' role='alert'>Relatore eliminato!</div>";
+        }
     ?>
     <div class="container-fluid p-3">
         <div class="row"><h2 class='card-title p-2 text-center p-3'>Azioni Disponibili</h2></div>
@@ -28,7 +66,7 @@
                             <a href="choose.php?who=rel&action=add" class="btn btn-outline-primary mb-2">Relatore</a>
                             <a href="addAzienda.php" class="btn btn-outline-primary mb-2">Azienda</a>
                             <a href="choose.php?who=part&action=add" class="btn btn-outline-primary mb-2">Partecipante</a>
-                            <a href="addSpeech.php" class="btn btn-outline-primary mb-2">Speech</a>
+                            <a href="addSpeech.php?action=add" class="btn btn-outline-primary mb-2">Speech</a>
                             <!-- form per istanziare uno speech -->
                             <a href="choose.php?who=programma&action=add" class="btn btn-outline-primary mb-2">Programma</a>
                             <!-- form per istanziare una programma con select dello speech e sala a cui associarlo -->
