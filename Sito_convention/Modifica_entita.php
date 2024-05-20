@@ -104,6 +104,19 @@ if(isset($_POST['entity'])) {
                     #rimanda indietro
                 }
             break;
+        case 'programma':
+            echo $_POST["entitySala"]." ".$_POST["entitySpeech"]." ".$_POST["idProgramma"]." ".$_POST["orar"];
+            $queryTab = "UPDATE Programma SET FasciaOraria = ?, IDSpeech_fk = ?, NomeSala_fk = ? WHERE IDProgramma = ?";
+            $parametri=["sisi",$_POST["orar"],$_POST["entitySpeech"],$_POST["entitySala"],$_POST["idProgramma"]];
+            if(Database::executeQuery($queryTab,$parametri,false)){
+                Database::disconnect();
+                Header("Location: admin.php?confirmer=modifyProgramma");
+            }
+            else{
+                echo "Registrazione fallita 0/2";
+                Database::disconnect();
+            }
+            break;
         default:
             echo 'Entità non valida.';
     }

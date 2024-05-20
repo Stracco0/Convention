@@ -83,6 +83,7 @@
                                 </tbody>
                             </div>
                         </table>
+                        </div>
                         XYZ;
                         echo $htmlmio;
                     }
@@ -91,6 +92,76 @@
                     }
                 }
             }
+
+
+
+
+            if(Controllo_Cookie(true) && Controllo_Utente() && isset($_REQUEST["Programma"])){
+                RefreshTempo();
+                
+                $Risposta_speech2=$risultatoTitolo->fetch_assoc();
+                $htmlmio=<<<XYZ
+                    <div class="row mt-5">
+                        <div class="col">
+                            <h5 class='card-title p-2 text-center p-3'>Relatori</h5>
+                        </div>
+                    </div>
+                    <div class="col text-end mb-3 pr-0">
+                        <form action="AggiungiPersonal.php" method="post">
+                            <button class="btn btn-secondary" type="submit"><i class="fas fa-plus"></i> Aggiungi Relatori</button>
+                        </form>
+                    </div>
+                XYZ;
+                echo $htmlmio;
+
+                $queryTab= "SELECT Relaziona.IDRel_fk,NomeRel,CognomeRel,RSAzienda_fk,Mail,IDSpeech_fk FROM Programma JOIN Relaziona ON Programma.IDProgramma = Relaziona.IDProgramma_fk LEFT JOIN Relatore ON Relaziona.IDRel_fk = Relatore.IDRel LEFT JOIN User ON Relatore.IDRel = User.IDRel_fk WHERE Programma.IDProgramma = ?";
+                $parametri=["i",$_REQUEST["Programma"]];
+                if($risultatoSpeech=Database::executeQuery($queryTab,$parametri,true)){
+                    if (!($risultatoSpeech->num_rows) == 0){
+                        #controllo la query ha prodotto dei risultati
+                        $htmlmio=<<<XYZ
+                        <div class="card">
+                            <table class='table mb-0'>
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Cognome</th>
+                                        <th>Email</th>
+                                        <th>Azienda</th>
+                                        <th>Azioni</th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+                        XYZ;
+                        echo $htmlmio;
+                        while($Risposta_speech=mysqli_fetch_array($risultatoSpeech)) {
+                            if ($Risposta_speech["Mail"]==""){
+                                $maill="Non disponibile";
+                            }
+                            else{
+                                $maill=$Risposta_speech["Mail"];
+                            }
+                            echo "<tr>";
+                                echo "<td>" . $Risposta_speech["NomeRel"] . "</td>";
+                                echo "<td>" . $Risposta_speech["CognomeRel"] . "</td>";
+                                echo "<td>" . $maill . "</td>";
+                                echo "<td>" . $Risposta_speech["RSAzienda_fk"] . "</td>";
+                                echo "<td><form action='killRel.php' method='POST'><input type='hidden' name='IdPart' value=".$Risposta_speech['IDRel_fk']." /><input type='hidden' name='QualeSpeech' value=".$Risposta_speech["IDSpeech_fk"]." /><button onClick=\"javascript: return confirm('Sicuro?');\" type='submit' class='btn btn-danger' title='Elimina Relatore dallo Speech'><i class='fas fa-trash-alt'></i></button></form></td>";
+                            echo "<tr>";
+                        } 
+                        $htmlmio =<<<XYZ
+                                </tbody>
+                            </div>
+                        </table>
+                        XYZ;
+                        echo $htmlmio;
+                    }
+                    else{
+                        echo "Non c'è nessun relatore";
+                    }
+                }
+            }
+            
         }
         ?>
     </div>

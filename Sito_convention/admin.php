@@ -15,6 +15,12 @@
         include_once("navbar.php");
         Controllo_Cookie(false);
         Controllo_Utente_admin();
+        if ($_REQUEST["confirmer"]=="delProgramma"){
+            echo "<div class=' m-2 alert alert-danger' role='alert'>Programma eliminato!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="modifyProgramma"){
+            echo "<div class=' m-2 alert alert-success' role='alert'>Programma modificato!</div>";
+        }
         if ($_REQUEST["confirmer"]=="addedProgramma"){
             echo "<div class=' m-2 alert alert-primary' role='alert'>Programma aggiunto!</div>";
         }

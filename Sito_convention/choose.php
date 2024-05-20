@@ -147,8 +147,18 @@
                         }
                         $flagprogramma=true;
                     }
-                    else{
+                    elseif($_REQUEST["action"]=="modify"){
                         $actionwhere="addProgramma.php";
+                        $who2="il programma";
+                        $queryTab= "SELECT Programma.IDProgramma AS id, CONCAT(Programma.FasciaOraria, ' - ', Speech.Titolo) AS totnome, Sala.NomeSala AS sala FROM Programma JOIN Speech ON Programma.IDSpeech_fk = Speech.IDSpeech JOIN Sala ON Programma.NomeSala_fk = Sala.NomeSala";
+                        if($risultato=Database::executeQueryNormal($queryTab)){
+                                
+                        }else{
+                            echo "failed";
+                            exit;
+                        }
+                    }else{
+                        $actionwhere="Elimina_entita.php";
                         $who2="il programma";
                         $queryTab= "SELECT Programma.IDProgramma AS id, CONCAT(Programma.FasciaOraria, ' - ', Speech.Titolo) AS totnome, Sala.NomeSala AS sala FROM Programma JOIN Speech ON Programma.IDSpeech_fk = Speech.IDSpeech JOIN Sala ON Programma.NomeSala_fk = Sala.NomeSala";
                         if($risultato=Database::executeQueryNormal($queryTab)){

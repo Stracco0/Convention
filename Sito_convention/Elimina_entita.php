@@ -86,8 +86,18 @@ if(isset($_POST['whoelim'])) {
                 Database::disconnect();
             }
             break;
-        case 'speech':
-            
+        case 'programma':
+            $queryTab= "DELETE FROM Programma WHERE IDProgramma = ?";
+                $parametri=["i",$_POST["entity"]];
+                if(Database::executeQuery($queryTab,$parametri,false)){
+                    Database::disconnect();
+                    Header("Location: admin.php?confirmer=delProgramma");
+                }
+                else{
+                    echo "Registrazione fallita 2/2";
+                    Database::disconnect();
+                    #rimanda indietro
+                }
             break;
         default:
             echo 'Entità non valida.';

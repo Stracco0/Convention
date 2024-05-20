@@ -54,51 +54,71 @@
                         </div>';
                     }
                     if($_POST["action2"]=="modify"){
-                        $queryTab="SELECT Sala.NomeSala FROM Sala JOIN PostiRimastiPerFasciaOraria ON Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView WHERE PostiRimastiPerFasciaOraria.PostiRimasti > 0";
-                        $risultatoSala=Database::executeQueryNormal($queryTab);
-                        $queryTab= "SELECT IDSpeech AS id, Titolo AS totnome FROM Speech";
-                        $risultatoSpeech=Database::executeQueryNormal($queryTab);
                         $idProgramma=$_POST["entity"];
-                        $queryTab= "SELECT IDProgramma,FasciaOraria,IDSpeech_fk,NomeSala_fk FROM Programma WHERE IDProgramma = ?";
-                        $parametri=["i",$_POST["entity"]];
-                        if($result2=Database::executeQuery($queryTab,$parametri,true)){
-                            $result2=$result2->fetch_assoc();
-                            echo '<div class="card">';
-                                echo '<div class="card-header text-center">';
-                                    echo '<h3 class="mb-0">Modifica il Programma</h3>';
-                                echo '</div>';
-                            echo '<div class="card-body">';
-                            $miohtml=<<<XYZ
-                                    <form action="Modifica_entita.php" method="post">
-                                        <div class="mb-3">
-                                            <label for="nome" class="form-label">FasciaOraria</label>
-                                            <input value={$result2["FasciaOraria"]} type="time" class="form-control" id="nome" name="orar" required>
-                                        </div>
-                                        <input type="hidden" name="entity" value="programma">
-                                        <input type="hidden" name="idProgramma" value={$idProgramma}>
-                            XYZ;
-                            echo $miohtml;
-                            echo '<label for="utente">Sala:</label>';
-                            echo '<select class="form-control" id="utente" name="entitySala" required>';
-                            echo '<option value="">-- Seleziona --</option>';
-                            while($risultatoSala=mysqli_fetch_array($risultatoSala)){
-                                echo '<option value='.$risultatoSala["NomeSala"].'>'.$risultatoSala["NomeSala"].'</option>';
-                            }
-                            echo '</select>';
-                            echo '<label for="utente">Speech:</label>';
-                            echo '<select class="form-control" id="utente" name="entitySpeech" required>';
-                            echo '<option value="">-- Seleziona --</option>';
-                            while($Risposta1=mysqli_fetch_array($risultato)){
-                                echo '<option value='.$Risposta1["id"].'>'.$Risposta1["totnome"].'</option>';
-                            }
-                            echo '</select>';
-                            echo '<div class="text-center">
-                                    <button type="submit" class="btn btn-success w-100">Modifica il Programma</button>
-                                </div>';
-                            echo '</form>
-                                </div>
-                            </div>';
+                        $queryTabSpeech= "SELECT IDSpeech AS id, Titolo AS totnome FROM Speech";
+                        if($risultato=Database::executeQueryNormal($queryTabSpeech)){
+                                
+                        }else{
+                            echo "failed";
+                            exit;
                         }
+                        $queryTabSala="SELECT Sala.NomeSala AS id, Sala.NomeSala AS nome FROM Sala JOIN PostiRimastiPerFasciaOraria ON Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView WHERE PostiRimastiPerFasciaOraria.PostiRimasti > 0";
+                        if($risultato2=Database::executeQueryNormal($queryTabSala)){
+                        }else{
+                            echo "failed";
+                            exit;
+                        }
+                        $queryTabpr= "SELECT IDProgramma,FasciaOraria,IDSpeech_fk,NomeSala_fk FROM Programma WHERE IDProgramma = ?";
+                        $parametri=["i",$_POST["entity"]];
+                        if($result2=Database::executeQuery($queryTabpr,$parametri,true)){
+
+                        }else{
+                            echo "failed";
+                            exit;
+                        }
+                        $result2=$result2->fetch_assoc();
+                        echo '<div class="card">';
+                        echo '<div class="card-header text-center">';
+                        echo '<h3 class="mb-0">Modifica il Programma</h3>';
+                        echo '</div>';
+                        echo '<div class="card-body">';
+                        $miohtml=<<<XYZ
+                        <form action="Modifica_entita.php" method="post">
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">FasciaOraria</label>
+                                <input value={$result2["FasciaOraria"]} type="time" class="form-control" id="nome" name="orar" required>
+                            </div>
+                            <input type="hidden" name="entity" value="programma">
+                            <input type="hidden" name="idProgramma" value={$idProgramma}>
+                        XYZ;
+                        echo $miohtml;
+                        echo '<label for="utente">Speech:</label>';
+                        echo '<select class="form-control" id="utente" name="entitySpeech" required>';
+                        echo '<option value="">-- Seleziona --</option>';
+                        while($Risposta1=mysqli_fetch_array($risultato)){
+                            if ($result2["IDSpeech_fk"]==$Risposta1["id"]){
+                                echo '<option selected value='.$Risposta1["id"].'>'.$Risposta1["totnome"].'</option>';
+                            }
+                            else{echo '<option value='.$Risposta1["id"].'>'.$Risposta1["totnome"].'</option>';}                           
+                        }
+                        echo '</select>';
+                        echo '<label for="utente">Sala:</label>';
+                        echo '<select class="form-control" id="utente" name="entitySala" required>';
+                        echo '<option value="">-- Seleziona --</option>';
+                        while($Risposta2=mysqli_fetch_array($risultato2)){
+                            if ($result2["NomeSala_fk"]==$Risposta2["id"]){
+                                echo '<option selected value='.$Risposta2["id"].'>'.$Risposta2["id"].'</option>';
+                            }
+                            else{echo '<option value='.$Risposta2["id"].'>'.$Risposta2["id"].'</option>';}       
+                        }
+                        echo '</select>';
+                        echo "<br>";
+                        echo '<div class="text-center">
+                                <button type="submit" class="btn btn-success w-100">Modifica il Programma</button>
+                            </div>';
+                        echo '</form>
+                            </div>
+                        </div>';
                     }
                 }
                 ?>
