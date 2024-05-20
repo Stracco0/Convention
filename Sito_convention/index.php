@@ -52,6 +52,7 @@
                 XYZ;
                 echo $htmlmio;
             }
+            else{}
             
 
         ?>
@@ -149,6 +150,120 @@
                                         <div class="col-12">
                                             <div class="row">
                                                 <h5 class='card-title p-2 text-center p-3'>NON RELAZIONI NESSUNO SPEECH</h5>
+                                            </div>
+                                        </div>
+                                    XYZ;
+                                    echo $htmlmio;
+                                }
+                            }
+                        }
+                        if(isPart() && isArel()){
+                            #Ottengo ibrido
+                            
+                            $htmlmio=<<<XYZ
+                            <div class="row">
+                                <div class="col">
+                                    <h2 class='card-title p-2 text-center p-3'>FAI DA RELATORE IN</h2>
+                                </div>
+                            </div>
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                            XYZ;
+                            echo $htmlmio;
+                            $queryTab= "SELECT Programma.FasciaOraria, Speech.Titolo, Speech.Argomento, Speech.IDSpeech, Sala.NpostiSala, Piano.Numero, PostiRimastiPerFasciaOraria.PostiRimasti, Programma.IDProgramma, Relatore.NomeRel, Relatore.CognomeRel FROM Relaziona JOIN Programma ON Relaziona.IDProgramma_fk = Programma.IDProgramma JOIN Speech ON Programma.IDSpeech_fk = Speech.IDSpeech JOIN Sala ON Programma.NomeSala_fk = Sala.NomeSala JOIN Piano ON Sala.Numero_fk = Piano.Numero JOIN PostiRimastiPerFasciaOraria ON Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView AND Programma.IDProgramma = PostiRimastiPerFasciaOraria.IDProgrammaView JOIN Relatore ON Relaziona.IDRel_fk = Relatore.IDRel WHERE Relatore.IDRel = ?";
+                            $parametri=["i",$_SESSION['RelAnche']];
+                            if($result=Database::executeQuery($queryTab,$parametri,true)){
+                                if ($result->num_rows > 0) {
+                                    while($row = $result->fetch_assoc()) {
+                                        $Orario = $row["FasciaOraria"];
+                                        $htmlmio=<<<XYZ
+                                        <div class='col-lg-3 col-md-4 col-sm-6 col-12 mb-4'>
+                                            <div class="card h-75">
+                                                <h5 class='card-title mb-0 text-center text-white bg-primary p-3'>{$row["Titolo"]}</h5>
+                                                <hr class="mb-0 mt-0"></hr>
+                                                <div class="card-body overflow-auto border-top">
+                                                    <p class="card-text"><strong>Relatore:</strong> {$row["NomeRel"]} {$row["CognomeRel"]}</p>
+                                                    <p class="card-text"><strong>Descrizione:</strong> {$row["Argomento"]}</p>
+                                                    <p class="card-text"><strong>Orario:</strong> $Orario</p>
+                                                    <p class="card-text"><strong>Sala:</strong> {$row["Numero"]}</p>
+                                                    <p class="card-text"><strong>Posti disponibili:</strong> {$row["PostiRimasti"]}</p>
+                                                </div>
+                                                <hr class="mb-0 mt-0"></hr>
+                                                
+                                            </div>
+                                        </div>
+                                        XYZ;
+                                        echo $htmlmio;
+                                    }
+                                } else {
+                                    $htmlmio=<<<XYZ
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <h5 class='card-title p-2 text-center p-3'>NON RELAZIONI NESSUNO SPEECH</h5>
+                                            </div>
+                                        </div>
+                                    XYZ;
+                                    echo $htmlmio;
+                                }
+                                echo "</div>";
+                            }
+                            $htmlmio=<<<XYZ
+                                <div class="row">
+                                    <div class="col">
+                                        <h2 class='card-title p-2 text-center p-3'>PARTECEPI IN</h2>
+                                    </div>
+                                </div>
+                                <div class="col text-end pr-0 mb-3">
+                                    <form action="AggiungiSpeech.php" method="post">
+                                        <button class="btn btn-secondary" type="submit"><i class="fas fa-plus"></i> Aggiungi Speech</button>
+                                    </form>
+                                </div>
+                            XYZ;
+                            echo $htmlmio;
+                            $htmlmio=<<<XYZ
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                            XYZ;
+                            echo $htmlmio;
+                            $queryTab= "SELECT FasciaOraria,Titolo,Argomento,IDSpeech,NpostiSala,Numero,PostiRimasti,IDProgramma_fk FROM Sceglie,Programma,Speech,Sala,Piano,PostiRimastiPerFasciaOraria WHERE Sceglie.IDProgramma_fk = Programma.IDProgramma AND Speech.IDSpeech = Programma.IDSpeech_fk AND Programma.NomeSala_fk = Sala.NomeSala AND Sala.Numero_fk = Piano.Numero AND Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView AND Sceglie.IDPart_fk = ?";
+                            $parametri=["i",$_SESSION['idPart']];
+                            if($result=Database::executeQuery($queryTab,$parametri,true)){
+                                if ($result->num_rows > 0) {
+                                    while($row = $result->fetch_assoc()) {
+                                        // Recupero della data
+                                        $Orario = $row["FasciaOraria"];
+                
+                                        // Recupero del relatore incaricato
+                                        $queryRelatore = "SELECT Relatore.NomeRel, Relatore.CognomeRel FROM Relatore JOIN Relaziona ON Relatore.IDRel = Relaziona.IDRel_fk WHERE Relaziona.IDProgramma_fk = ?";
+                                        $parametriRelatore=["i",$row["IDSpeech"]];
+                                        $relatore_result = Database::executeQuery($queryRelatore,$parametriRelatore,true);
+                                        $rowRelatore = $relatore_result->fetch_assoc();
+                                        $htmlmio=<<<XYZ
+                                        <div class='col-lg-3 col-md-4 col-sm-6 col-12 mb-4'>
+                                            <div class="card h-75">
+                                                <h5 class='card-title mb-0 text-center text-white bg-primary p-3'>{$row["Titolo"]}</h5>
+                                                <hr class="mb-0 mt-0"></hr>
+                                                <div class="card-body overflow-auto border-top">
+                                                    <p class="card-text"><strong>Relatore:</strong> {$rowRelatore["NomeRel"]} {$rowRelatore["CognomeRel"]}</p>
+                                                    <p class="card-text"><strong>Descrizione:</strong> {$row["Argomento"]}</p>
+                                                    <p class="card-text"><strong>Orario:</strong> $Orario</p>
+                                                    <p class="card-text"><strong>Sala:</strong> {$row["Numero"]}</p>
+                                                    <p class="card-text"><strong>Posti disponibili:</strong> {$row["PostiRimasti"]}</p>
+                                                </div>
+                                                <hr class="mb-0 mt-0"></hr>
+                                                <div class="row p-2">
+                                                    <div class="col text-end">
+                                                        <form action="Abbandona.php" method="post"><input type="hidden" name="QualeSpeech" value={$row["IDSpeech"]}><input type="hidden" name="IdPart" value={$_SESSION['idPart']}><button title="Abbandona Speech" onClick="javascript: return confirm('Sicuro di voler abbandonare lo Speech?');" class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button></form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        XYZ;
+                                        echo $htmlmio;
+                                    }
+                                } else {
+                                    $htmlmio=<<<XYZ
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <h5 class='card-title p-2 text-center p-3'>NON PARTECIPI A NESSUNO SPEECH</h5>
                                             </div>
                                         </div>
                                     XYZ;

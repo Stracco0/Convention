@@ -16,7 +16,7 @@
     <a href='admin.php'><button class='btn btn-primary mb-2'><i class='fas fa-arrow-left'></i></button></a>
         <?php
         if (Database::connect()){
-            if(Controllo_Cookie(true) && Controllo_Utente() && isset($_REQUEST["Programma"])){
+            if(Controllo_Cookie(true) && Controllo_Utente_admin() && isset($_REQUEST["Programma"])){
                 RefreshTempo();
                 $queryTab= "SELECT Speech.Titolo AS TitoloSpeech FROM Programma JOIN Speech ON Programma.IDSpeech_fk = Speech.IDSpeech WHERE Programma.IDProgramma = ?";
                 $parametri=["i",$_REQUEST["Programma"]];
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                             <div class="col text-end mb-3 pr-0">
-                                <form action="AggiungiPersonal.php" method="post">
+                                <form action="AggiungiPersonal.php?who=part&programma={$_REQUEST["Programma"]}" method="post">
                                     <button class="btn btn-secondary" type="submit"><i class="fas fa-plus"></i> Aggiungi Partecipanti</button>
                                 </form>
                             </div>
@@ -96,7 +96,7 @@
 
 
 
-            if(Controllo_Cookie(true) && Controllo_Utente() && isset($_REQUEST["Programma"])){
+            if(Controllo_Cookie(true) && Controllo_Utente_admin() && isset($_REQUEST["Programma"])){
                 RefreshTempo();
                 
                 $Risposta_speech2=$risultatoTitolo->fetch_assoc();
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                     <div class="col text-end mb-3 pr-0">
-                        <form action="AggiungiPersonal.php" method="post">
+                        <form action="AggiungiPersonal.php?who=rel&programma={$_REQUEST["Programma"]}" method="post">
                             <button class="btn btn-secondary" type="submit"><i class="fas fa-plus"></i> Aggiungi Relatori</button>
                         </form>
                     </div>
@@ -146,7 +146,7 @@
                                 echo "<td>" . $Risposta_speech["CognomeRel"] . "</td>";
                                 echo "<td>" . $maill . "</td>";
                                 echo "<td>" . $Risposta_speech["RSAzienda_fk"] . "</td>";
-                                echo "<td><form action='killRel.php' method='POST'><input type='hidden' name='IdPart' value=".$Risposta_speech['IDRel_fk']." /><input type='hidden' name='QualeSpeech' value=".$Risposta_speech["IDSpeech_fk"]." /><button onClick=\"javascript: return confirm('Sicuro?');\" type='submit' class='btn btn-danger' title='Elimina Relatore dallo Speech'><i class='fas fa-trash-alt'></i></button></form></td>";
+                                echo "<td><form action='killRel.php' method='POST'><input type='hidden' name='IdRel' value=".$Risposta_speech['IDRel_fk']." /><input type='hidden' name='QualeSpeech' value=".$Risposta_speech["IDSpeech_fk"]." /><button onClick=\"javascript: return confirm('Sicuro?');\" type='submit' class='btn btn-danger' title='Elimina Relatore dallo Speech'><i class='fas fa-trash-alt'></i></button></form></td>";
                             echo "<tr>";
                         } 
                         $htmlmio =<<<XYZ
