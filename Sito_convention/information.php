@@ -33,7 +33,7 @@
                     RefreshTempo();
                     if (Database::connect()){
                         #Ottengo lista Speech con un bottone aggiungi
-                        $queryTab="SELECT User.Id_user, User.Mail, User.Password_user, Partecipante.NomePart, Partecipante.CognomePart, Partecipante.TipologiaPart, Relatore.NomeRel, Relatore.CognomeRel, CASE WHEN User.IDPart_fk IS NOT NULL AND User.IDRel_fk IS NOT NULL THEN 'Partecipante e Relatore' WHEN User.IDPart_fk IS NOT NULL THEN 'Partecipante' WHEN User.IDRel_fk IS NOT NULL THEN 'Relatore' ELSE 'Nessuna Tipologia' END AS Tipologia, Partecipante.IDPart, Relatore.IDRel FROM User LEFT JOIN Partecipante ON User.IDPart_fk = Partecipante.IDPart LEFT JOIN Relatore ON User.IDRel_fk = Relatore.IDRel WHERE User.Id_user = ?";
+                        $queryTab="SELECT User.Id_user, User.Mail, User.Password_user, Partecipante.NomePart, Partecipante.CognomePart, Partecipante.TipologiaPart, Relatore.NomeRel, Relatore.CognomeRel, Relatore.RSAzienda_fk, CASE WHEN User.IDPart_fk IS NOT NULL AND User.IDRel_fk IS NOT NULL THEN 'Partecipante e Relatore' WHEN User.IDPart_fk IS NOT NULL THEN 'Partecipante' WHEN User.IDRel_fk IS NOT NULL THEN 'Relatore' ELSE 'Nessuna Tipologia' END AS Tipologia, Partecipante.IDPart, Relatore.IDRel FROM User LEFT JOIN Partecipante ON User.IDPart_fk = Partecipante.IDPart LEFT JOIN Relatore ON User.IDRel_fk = Relatore.IDRel WHERE User.Id_user = ?";
                         $parametri=["i",$_SESSION['idUser']];
                         if($result=Database::executeQuery($queryTab,$parametri,true)){
                             $result=$result->fetch_assoc();
@@ -83,6 +83,7 @@
                                         <div class="card-body">
                                             <p class="card-text"><strong>Nome:</strong> {$result["NomeRel"]}</p>
                                             <p class="card-text"><strong>Cognome:</strong> {$result["CognomeRel"]}</p>
+                                            <p class="card-text"><strong>Azienda:</strong> {$result["RSAzienda_fk"]}</p>
                                         </div>
                                     </div>
                                 </div>

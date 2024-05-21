@@ -121,7 +121,7 @@
                             XYZ;
                             echo $htmlmio;
                             $queryTab= "SELECT Programma.FasciaOraria, Speech.Titolo, Speech.Argomento, Speech.IDSpeech, Sala.NpostiSala, Piano.Numero, PostiRimastiPerFasciaOraria.PostiRimasti, Programma.IDProgramma, Relatore.NomeRel, Relatore.CognomeRel FROM Relaziona JOIN Programma ON Relaziona.IDProgramma_fk = Programma.IDProgramma JOIN Speech ON Programma.IDSpeech_fk = Speech.IDSpeech JOIN Sala ON Programma.NomeSala_fk = Sala.NomeSala JOIN Piano ON Sala.Numero_fk = Piano.Numero JOIN PostiRimastiPerFasciaOraria ON Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView AND Programma.IDProgramma = PostiRimastiPerFasciaOraria.IDProgrammaView JOIN Relatore ON Relaziona.IDRel_fk = Relatore.IDRel WHERE Relatore.IDRel = ?";
-                            $parametri=["i",$_SESSION['RelAnche']];
+                            $parametri=["i",$_SESSION['idRel']];
                             if($result=Database::executeQuery($queryTab,$parametri,true)){
                                 if ($result->num_rows > 0) {
                                     while($row = $result->fetch_assoc()) {
@@ -170,7 +170,7 @@
                             XYZ;
                             echo $htmlmio;
                             $queryTab= "SELECT Programma.FasciaOraria, Speech.Titolo, Speech.Argomento, Speech.IDSpeech, Sala.NpostiSala, Piano.Numero, PostiRimastiPerFasciaOraria.PostiRimasti, Programma.IDProgramma, Relatore.NomeRel, Relatore.CognomeRel FROM Relaziona JOIN Programma ON Relaziona.IDProgramma_fk = Programma.IDProgramma JOIN Speech ON Programma.IDSpeech_fk = Speech.IDSpeech JOIN Sala ON Programma.NomeSala_fk = Sala.NomeSala JOIN Piano ON Sala.Numero_fk = Piano.Numero JOIN PostiRimastiPerFasciaOraria ON Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView AND Programma.IDProgramma = PostiRimastiPerFasciaOraria.IDProgrammaView JOIN Relatore ON Relaziona.IDRel_fk = Relatore.IDRel WHERE Relatore.IDRel = ?";
-                            $parametri=["i",$_SESSION['RelAnche']];
+                            $parametri=["i",$_SESSION['idRel']];
                             if($result=Database::executeQuery($queryTab,$parametri,true)){
                                 if ($result->num_rows > 0) {
                                     while($row = $result->fetch_assoc()) {
