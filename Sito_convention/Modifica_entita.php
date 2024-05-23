@@ -106,15 +106,36 @@ if(isset($_POST['entity'])) {
             break;
         case 'programma':
             echo $_POST["entitySala"]." ".$_POST["entitySpeech"]." ".$_POST["idProgramma"]." ".$_POST["orar"];
-            $queryTab = "UPDATE Programma SET FasciaOraria = ?, IDSpeech_fk = ?, NomeSala_fk = ? WHERE IDProgramma = ?";
-            $parametri=["sisi",$_POST["orar"],$_POST["entitySpeech"],$_POST["entitySala"],$_POST["idProgramma"]];
-            if(Database::executeQuery($queryTab,$parametri,false)){
-                Database::disconnect();
-                Header("Location: admin.php?confirmer=modifyProgramma");
-            }
-            else{
-                echo "Registrazione fallita 0/2";
-                Database::disconnect();
+            $sql_fasce_orarie = "SELECT FasciaOraria FROM Programma WHERE NomeSala_fk = ?";
+            $parametri=["s",$_POST["entitySala"]];
+            if(Database::executeQuery($sql_fasce_orarie,$parametri,true)){
+                $result=Database::executeQuery($sql_fasce_orarie,$parametri,true);
+                $overlap = false;
+                while ($row = $result->fetch_assoc()) {
+                    $existingTime = $row['FasciaOraria'];
+                    $newTime = strtotime($_POST["orar"]);
+                    $existingTime = strtotime($existingTime);
+                    // Verifica se le fasce orarie si sovrappongono
+                    if (abs($newTime - $existingTime) < 1800) { // 1800 secondi = 30 minuti
+                        $overlap = true;
+                        break;
+                    }
+                }
+                if (!$overlap) {
+                    // Nessuna sovrapposizione, procedi con la modifica
+                    $queryTab = "UPDATE Programma SET FasciaOraria = ?, IDSpeech_fk = ?, NomeSala_fk = ? WHERE IDProgramma = ?";
+                    $parametri=["sisi",$_POST["orar"],$_POST["entitySpeech"],$_POST["entitySala"],$_POST["idProgramma"]];
+                    if(Database::executeQuery($queryTab,$parametri,false)){
+                        Database::disconnect();
+                        Header("Location: admin.php?confirmer=modifyProgramma");
+                    }
+                    else{
+                        echo "Registrazione fallita 0/2";
+                        Database::disconnect();
+                    }
+                }else{
+                    Header("Location: admin.php?confirmer=errormodprogramma");
+                }
             }
             break;
         default:

@@ -55,14 +55,14 @@
                     }
                     if($_POST["action2"]=="modify"){
                         $idProgramma=$_POST["entity"];
-                        $queryTabSpeech= "SELECT IDSpeech AS id, Titolo AS totnome FROM Speech";
+                        $queryTabSpeech= "SELECT DISTINCT IDSpeech AS id, Titolo AS totnome FROM Speech";
                         if($risultato=Database::executeQueryNormal($queryTabSpeech)){
                                 
                         }else{
                             echo "failed";
                             exit;
                         }
-                        $queryTabSala="SELECT Sala.NomeSala AS id, Sala.NomeSala AS nome FROM Sala JOIN PostiRimastiPerFasciaOraria ON Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView WHERE PostiRimastiPerFasciaOraria.PostiRimasti > 0";
+                        $queryTabSala="SELECT DISTINCT Sala.NomeSala AS id, Sala.NomeSala AS nome FROM Sala JOIN PostiRimastiPerFasciaOraria ON Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView WHERE PostiRimastiPerFasciaOraria.PostiRimasti > 0";
                         if($risultato2=Database::executeQueryNormal($queryTabSala)){
                         }else{
                             echo "failed";

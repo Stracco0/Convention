@@ -132,7 +132,7 @@
                     if($_REQUEST["action"]=="add"){
                         $actionwhere="addProgramma.php";
                         $who2="lo speech e la sala a cui vuoi associarlo";
-                        $queryTab="SELECT Sala.NomeSala AS id, Sala.NomeSala AS nome FROM Sala JOIN PostiRimastiPerFasciaOraria ON Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView WHERE PostiRimastiPerFasciaOraria.PostiRimasti > 0";
+                        $queryTab="SELECT DISTINCT Sala.NomeSala AS id, Sala.NomeSala AS nome FROM Sala JOIN PostiRimastiPerFasciaOraria ON Sala.NomeSala = PostiRimastiPerFasciaOraria.NomeSalaView WHERE PostiRimastiPerFasciaOraria.PostiRimasti > 0";
                         if($risultato2=Database::executeQueryNormal($queryTab)){
                         }else{
                             echo "failed";

@@ -15,6 +15,12 @@
         include_once("navbar.php");
         Controllo_Cookie(false);
         Controllo_Utente_admin();
+        if ($_REQUEST["confirmer"]=="errormodprogramma"){
+            echo "<div class=' m-2 alert alert-danger' role='alert'>Programma non modificato, SOVRAPPOSIZIONE!</div>";
+        }
+        if ($_REQUEST["confirmer"]=="erroraddprogramma"){
+            echo "<div class=' m-2 alert alert-danger' role='alert'>Programma non aggiunto, SOVRAPPOSIZIONE!</div>";
+        }
         if ($_REQUEST["confirmer"]=="delProgramma"){
             echo "<div class=' m-2 alert alert-danger' role='alert'>Programma eliminato!</div>";
         }
